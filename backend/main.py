@@ -65,7 +65,19 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.mount("/static", StaticFiles(directory=str(STORAGE_DIR)), name="static")
+
+# Initialize app state with default directories
+app.state.output_dir = OUTPUT_DIR
+app.state.images_dir = IMAGES_DIR
+app.state.storage_dir = STORAGE_DIR
+
+# Function to update static mount (used in tests)
+def update_static_mount():
+    app.router.routes = [route for route in app.router.routes if not isinstance(route, StaticFiles)]
+    app.mount("/static", StaticFiles(directory=str(app.state.storage_dir)), name="static")
+
+# Initial static mount
+update_static_mount()
 
 # ----------------- Models -----------------
 class ImageItem(BaseModel):
@@ -241,7 +253,8 @@ def compose_instruction(prompt: str, mode: str, preset: Optional[str], width: in
 @app.get("/images", response_model=List[ImageItem])
 def list_images():
     items: List[ImageItem] = []
-    for p in sorted(IMAGES_DIR.glob("*"), key=lambda x: x.stat().st_mtime, reverse=True):
+    images_dir = app.state.images_dir
+    for p in sorted(pathlib.Path(images_dir).glob("*"), key=lambda x: x.stat().st_mtime, reverse=True):
         if p.is_file():
             st = p.stat()
             items.append(ImageItem(filename=p.name, url=f"/static/images/{p.name}", size_bytes=st.st_size, created_at=st.st_mtime))

@@ -36,7 +36,7 @@ def test_list_images_with_files(client, temp_image_dir):
     assert data[0]["url"] == "/static/images/test.png"
     assert data[0]["size_bytes"] > 0
 
-def test_static_image_serve(client, temp_image_dir):
+def test_static_image_serve(client_with_temp_dir, temp_image_dir):
     """Test that static images are served correctly"""
     # Create a test image
     img = Image.new('RGB', (60, 30), color = 'blue')
@@ -50,7 +50,7 @@ def test_static_image_serve(client, temp_image_dir):
     with open(storage_path, "wb") as f:
         f.write(img_bytes.getvalue())
     
-    response = client.get("/static/images/static_test.png")
+    response = client_with_temp_dir.get("/static/images/static_test.png")
     assert response.status_code == 200
     assert response.headers["content-type"] == "image/png"
 
