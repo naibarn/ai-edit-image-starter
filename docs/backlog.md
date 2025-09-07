@@ -22,7 +22,7 @@
 ### Epic A — Project Scaffolding & Tooling
 | ID | Title                      | MoSCoW | Priority | SP | EstHrs | Owner  | Status     | Deps | TestId | TestFiles                                                | TestStatus |
 |----|----------------------------|--------|----------|----|--------|--------|------------|------|--------|----------------------------------------------------------|------------|
-| A1 | Repo Structure & Init      | M      | P1       | 2  | 4      | DevOps | Planned    | —    | T-A1   | n/a (ตรวจด้วย lint/build)                               | NotStarted |
+| A1 | Repo Structure & Init      | M      | P1       | 2  | 4      | DevOps | Done       | —    | T-A1   | n/a (ตรวจด้วย lint/build)                               | Passed     |
 | A2 | Scripts & Envs (setup/run) - Baseline Green | M      | P1       | 3  | 6      | DevOps | Done       | A1   | T-A2   | backend/tests/test_scripts.py                            | Passed     |
 
 **Unit Test Spec**
