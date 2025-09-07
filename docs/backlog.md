@@ -34,7 +34,7 @@
 | ID    | Title                                  | MoSCoW | Priority | SP | EstHrs | Owner | Status     | Deps | TestId | TestFiles                                                                         | TestStatus |
 |-------|----------------------------------------|--------|----------|----|--------|------|------------|------|--------|-----------------------------------------------------------------------------------|------------|
 | B1    | Storage & Static Mount                 | M      | P1       | 2  | 4      | BE   | Done       | A2   | T-B1   | backend/tests/test_storage_static.py                                              | Passed     |
-| B2-OR | Endpoints + OpenRouter Adapter         | M      | P1       | 5  | 12     | BE   | Planned    | B1   | T-B2   | backend/tests/test_images_generate.py, backend/tests/test_images_edit.py          | NotStarted |
+| B2-OR | Endpoints + OpenRouter Adapter         | M      | P1       | 5  | 12     | BE   | InProgress    | B1   | T-B2   | backend/tests/test_images_generate.py, backend/tests/test_images_edit.py          | Failed |
 | B3    | Provider Override (per-request)        | S      | P2       | 2  | 4      | BE   | Planned    | B2-OR| T-B3   | backend/tests/test_provider_override.py                                           | NotStarted |
 
 **Unit Test Spec**

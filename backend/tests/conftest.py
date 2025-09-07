@@ -1,7 +1,11 @@
 import pytest
 import tempfile
 import os
+import sys
 from fastapi.testclient import TestClient
+
+# Add the parent directory to the path so we can import main
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from main import app
 
 @pytest.fixture
