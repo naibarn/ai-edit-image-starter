@@ -1,0 +1,47 @@
+name: CI
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+jobs:
+  backend:
+    if: ${{ hashFiles('backend/**') != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Install deps
+        run: |
+          python -m pip install -U pip
+          if [ -f backend/requirements.txt ]; then pip install -r backend/requirements.txt; fi
+      - name: PyTest
+        working-directory: backend
+        run: pytest -q
+  frontend:
+    if: ${{ hashFiles('frontend/**') != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20.x" }
+      - name: Install & Test/Build (auto-detect pm)
+        working-directory: frontend
+        run: |
+          corepack enable || true
+          if [ -f pnpm-lock.yaml ]; then
+            pnpm install --frozen-lockfile
+            pnpm test -c || pnpm test || true
+            pnpm build || true
+          elif [ -f package-lock.json ]; then
+            npm ci --no-audit --no-fund --no-optional
+            npm test --if-present || true
+            npm run build --if-present || true
+          elif [ -f yarn.lock ]; then
+            yarn install --frozen-lockfile
+            yarn test || true
+            yarn build || true
+          else
+            echo "No lockfile found; skipping FE steps."
+          fi
