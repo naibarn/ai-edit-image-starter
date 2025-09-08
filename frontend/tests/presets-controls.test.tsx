@@ -1,11 +1,14 @@
+/// <reference types="vitest/globals" />
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import EditPage from '@/app/edit/page'
+import EditPage from '../app/edit/page'
 import axios from 'axios'
 
 // Mock axios
-vi.mock('axios')
-const mockedAxios = vi.mocked(axios)
+vi.mock('axios');
+const mockedAxios = vi.mocked(axios);
+mockedAxios.get = vi.fn();
+mockedAxios.post = vi.fn();
 
 // Mock toast
 vi.mock('sonner', () => ({
@@ -28,10 +31,12 @@ const mockImageItems = [
 
 describe('Presets and Controls', () => {
   beforeEach(() => {
-    vi.clearAllMocks()
+    // Clear all mocks
+    (mockedAxios.get as any).mockClear()
+    (mockedAxios.post as any).mockClear()
     
     // Mock the initial images fetch
-    mockedAxios.get.mockResolvedValue({ data: mockImageItems })
+    (mockedAxios.get as any).mockResolvedValue({ data: mockImageItems })
   })
 
   test('renders all preset options', () => {
@@ -240,7 +245,7 @@ describe('Presets and Controls', () => {
     expect(widthLabel.textContent).toContain('1024')
     
     // Move slider to the right
-    if (widthSlider) {
+    if (widthSlider && widthSlider instanceof Element) {
       await user.click(widthSlider)
       await user.keyboard('{ArrowRight}')
       
@@ -264,7 +269,7 @@ describe('Presets and Controls', () => {
     expect(heightLabel.textContent).toContain('1024')
     
     // Move slider to the right
-    if (heightSlider) {
+    if (heightSlider && heightSlider instanceof Element) {
       await user.click(heightSlider)
       await user.keyboard('{ArrowRight}')
       
@@ -288,7 +293,7 @@ describe('Presets and Controls', () => {
     expect(outputsLabel.textContent).toContain('1')
     
     // Move slider to the right
-    if (outputsSlider) {
+    if (outputsSlider && outputsSlider instanceof Element) {
       await user.click(outputsSlider)
       await user.keyboard('{ArrowRight}')
       
@@ -325,7 +330,7 @@ describe('Presets and Controls', () => {
 
   test('submits form with preset and provider selection', async () => {
     // Mock successful API response
-    mockedAxios.post.mockResolvedValue({ status: 200, data: mockImageItems })
+    (mockedAxios.post as any).mockResolvedValue({ status: 200, data: mockImageItems })
     
     render(<EditPage />)
     

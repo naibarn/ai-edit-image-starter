@@ -218,6 +218,81 @@ def test_worker_thread_processing(client, temp_image_dir):
             job_data = response.json()
             assert job_data["status"] in ["done", "error"]
 
+def test_normal_flow(client, temp_image_dir):
+    """Test normal flow: submit → queued → running → done"""
+    with patch('requests.post') as mock_post:
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {"dummy": "success"}
+        mock_post.return_value = mock_response
+
+        response = client.post("/jobs/submit", json={"op": "generate", "prompt": "test"})
+        assert response.status_code == 200
+        job_id = response.json()["id"]
+
+        # Check queued
+        response = client.get(f"/jobs/{job_id}")
+        assert response.json()["status"] == "queued"
+
+        # Wait for worker to process
+        import time
+        for _ in range(10):
+            response = client.get(f"/jobs/{job_id}")
+            if response.json()["status"] == "done":
+                break
+            time.sleep(0.1)
+
+        response = client.get(f"/jobs/{job_id}")
+        assert response.json()["status"] == "done"
+
+def test_error_path(client, temp_image_dir):
+    """Test error path: simulate error during processing → 'error' status"""
+    with patch('requests.post', side_effect=Exception("Simulated error")):
+        response = client.post("/jobs/submit", json={"op": "generate", "prompt": "test"})
+        assert response.status_code == 200
+        job_id = response.json()["id"]
+
+        # Wait for worker
+        import time
+        for _ in range(10):
+            response = client.get(f"/jobs/{job_id}")
+            if response.json()["status"] == "error":
+                break
+            time.sleep(0.1)
+
+        response = client.get(f"/jobs/{job_id}")
+        assert response.json()["status"] == "error"
+
+def test_no_shared_state_leak(client, temp_image_dir):
+    """Test no shared state leak between jobs: run multiple jobs sequentially"""
+    with patch('requests.post') as mock_post:
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {"dummy": "success"}
+        mock_post.return_value = mock_response
+
+        job_ids = []
+        for i in range(3):
+            response = client.post("/jobs/submit", json={"op": "generate", "prompt": f"test {i}"})
+            job_ids.append(response.json()["id"])
+
+        # Wait for all to be done
+        import time
+        for _ in range(20):
+            all_done = True
+            for job_id in job_ids:
+                response = client.get(f"/jobs/{job_id}")
+                if response.json()["status"] != "done":
+                    all_done = False
+                    break
+            if all_done:
+                break
+            time.sleep(0.1)
+
+        for job_id in job_ids:
+            response = client.get(f"/jobs/{job_id}")
+            assert response.json()["status"] == "done"
+
 def test_worker_thread_with_multiple_workers(client, temp_image_dir):
     """Test that multiple worker threads can process jobs concurrently"""
     # Mock the provider response with a delay to simulate processing time

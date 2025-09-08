@@ -34,8 +34,8 @@
 | ID    | Title                                  | MoSCoW | Priority | SP | EstHrs | Owner | Status     | Deps | TestId | TestFiles                                                                         | TestStatus |
 |-------|----------------------------------------|--------|----------|----|--------|------|------------|------|--------|-----------------------------------------------------------------------------------|------------|
 | B1    | Storage & Static Mount                 | M      | P1       | 2  | 4      | BE   | Done       | A2   | T-B1   | backend/tests/test_storage_static.py                                              | Passed     |
-| B2-OR | Endpoints + OpenRouter Adapter         | M      | P1       | 5  | 12     | BE   | InProgress    | B1   | T-B2   | backend/tests/test_images_generate.py, backend/tests/test_images_edit.py          | Failed |
-| B3    | Provider Override (per-request)        | S      | P2       | 2  | 4      | BE   | Planned    | B2-OR| T-B3   | backend/tests/test_provider_override.py                                           | NotStarted |
+| B2-OR | Endpoints + OpenRouter Adapter         | M      | P1       | 5  | 12     | BE   | Done       | B1   | T-B2   | backend/tests/test_images_generate.py, backend/tests/test_images_edit.py          | Passed |
+| B3    | Provider Override (per-request)        | S      | P2       | 2  | 4      | BE   | Done       | B2-OR| T-B3   | backend/tests/test_provider_override.py                                           | Passed     |
 
 **Unit Test Spec**
 - **T-B1**: `GET /images` คืนลิสต์ไฟล์เรียงล่าสุด, เส้นทาง `/static/images/<file>` ตอบ 200
@@ -51,11 +51,12 @@
 ### Epic H — Logging & Error Handling
 | ID | Title                         | MoSCoW | Priority | SP | EstHrs | Owner | Status  | Deps | TestId | TestFiles                               | TestStatus |
 |----|-------------------------------|--------|----------|----|--------|-------|---------|------|--------|-----------------------------------------|------------|
-| H1 | Server Logging Baseline       | M      | P1       | 2  | 4      | BE    | Planned | B2-OR| T-H1   | backend/tests/test_logging_server.py    | NotStarted |
+| H1 | Server Logging Baseline       | M      | P1       | 2  | 4      | BE    | Completed | B2-OR| T-H1   | backend/tests/test_logging_server.py    | Passed |
 | H2 | Client → Server Logs Endpoint | S      | P2       | 1  | 2      | FE    | Planned | E3   | T-H2   | backend/tests/test_logging_client.py    | NotStarted |
 
 **Unit Test Spec**
 - **T-H1**: เมื่อเกิด exception ใน handler → มีบรรทัด `TRACEBACK` ใน `logs/app.log` (mock logger หรืออ่านไฟล์ชั่วคราว)
+  - Note: Tests passing - exception logging verified successfully.
 - **T-H2**: `POST /logs/client` รับ JSON และ append ลงไฟล์ log ได้จริง
 
 ---

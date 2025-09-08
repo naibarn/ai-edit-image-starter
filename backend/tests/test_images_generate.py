@@ -31,7 +31,7 @@ def test_generate_image_with_mock_provider(client, temp_image_dir):
         }]
     }
     
-    with patch('requests.post', return_value=mock_response):
+    with patch('main.requests.post', return_value=mock_response):
         response = client.post("/images/generate", data={
             "prompt": "test prompt",
             "width": 512,
@@ -47,17 +47,33 @@ def test_generate_image_with_mock_provider(client, temp_image_dir):
 
 def test_generate_image_validation(client):
     """Test that generate endpoint validates parameters"""
-    # Test with invalid width
-    response = client.post("/images/generate", data={
-        "prompt": "test",
-        "width": 100,  # Too small
-        "height": 1024,
-        "fmt": "png",
-        "n": 1
-    })
-    # The endpoint doesn't validate width/height in the current implementation
-    # This test would need to be updated if validation is added
-    assert response.status_code in [200, 422]
+    # Mock the provider response for this test
+    mock_response = MagicMock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {
+        "choices": [{
+            "message": {
+                "images": [{
+                    "image_url": {
+                        "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
+                    }
+                }]
+            }
+        }]
+    }
+    
+    with patch('main.requests.post', return_value=mock_response):
+        # Test with invalid width
+        response = client.post("/images/generate", data={
+            "prompt": "test",
+            "width": 100,  # Too small
+            "height": 1024,
+            "fmt": "png",
+            "n": 1
+        })
+        # The endpoint doesn't validate width/height in the current implementation
+        # This test would need to be updated if validation is added
+        assert response.status_code in [200, 422]
 
 def test_generate_image_multiple_outputs(client, temp_image_dir):
     """Test generating multiple images"""
@@ -83,7 +99,7 @@ def test_generate_image_multiple_outputs(client, temp_image_dir):
         }]
     }
     
-    with patch('requests.post', return_value=mock_response):
+    with patch('main.requests.post', return_value=mock_response):
         response = client.post("/images/generate", data={
             "prompt": "test prompt",
             "width": 512,

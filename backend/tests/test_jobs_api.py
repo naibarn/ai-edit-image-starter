@@ -203,3 +203,24 @@ def test_job_processing_with_error(client, temp_image_dir):
         assert job_data["status"] == "error"
         assert job_data["error"] is not None
         assert "Provider error" in job_data["error"]
+
+def test_get_job_after_submit(client):
+    """Test submitting a job then GET it, checking statuses"""
+    # Submit a job
+    submit_response = client.post("/jobs/submit", json={})
+    assert submit_response.status_code == 200
+    job_id = submit_response.json()["id"]
+
+    # GET the job
+    response = client.get(f"/jobs/{job_id}")
+    assert response.status_code == 200
+
+    data = response.json()
+    assert data["job_id"] == job_id
+    assert data["status"] in ["queued", "processing", "done", "error"]
+    assert "result" in data  # result is optional, but key should be present
+
+def test_get_nonexistent_job_404(client):
+    """Test GET a non-existent job returns 404"""
+    response = client.get("/jobs/invalid-job-id")
+    assert response.status_code == 404

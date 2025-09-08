@@ -1,11 +1,14 @@
+/// <reference types="vitest/globals" />
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import EditPage from '@/app/edit/page'
+import EditPage from '../app/edit/page'
 import axios from 'axios'
 
 // Mock axios
-vi.mock('axios')
-const mockedAxios = vi.mocked(axios)
+vi.mock('axios');
+const mockedAxios = vi.mocked(axios);
+mockedAxios.get = vi.fn();
+mockedAxios.post = vi.fn();
 
 // Mock toast
 vi.mock('sonner', () => ({
@@ -28,10 +31,12 @@ const mockImageItems = [
 
 describe('Edit Form', () => {
   beforeEach(() => {
-    vi.clearAllMocks()
+    // Clear all mocks
+    (mockedAxios.get as any).mockClear()
+    (mockedAxios.post as any).mockClear()
     
     // Mock the initial images fetch
-    mockedAxios.get.mockResolvedValue({ data: mockImageItems })
+    (mockedAxios.get as any).mockResolvedValue({ data: mockImageItems })
   })
 
   test('renders form with all required fields', () => {
@@ -122,7 +127,7 @@ describe('Edit Form', () => {
 
   test('submits form with correct data for generate', async () => {
     // Mock successful API response
-    mockedAxios.post.mockResolvedValue({ status: 200, data: mockImageItems })
+    (mockedAxios.post as any).mockResolvedValue({ status: 200, data: mockImageItems })
     
     render(<EditPage />)
     
@@ -156,7 +161,7 @@ describe('Edit Form', () => {
 
   test('submits form with correct data for edit', async () => {
     // Mock successful API response
-    mockedAxios.post.mockResolvedValue({ status: 200, data: mockImageItems })
+    (mockedAxios.post as any).mockResolvedValue({ status: 200, data: mockImageItems })
     
     render(<EditPage />)
     
@@ -195,7 +200,7 @@ describe('Edit Form', () => {
 
   test('handles API errors gracefully', async () => {
     // Mock API error
-    mockedAxios.post.mockRejectedValue(new Error('API Error'))
+    (mockedAxios.post as any).mockRejectedValue(new Error('API Error'))
     
     render(<EditPage />)
     
@@ -251,7 +256,7 @@ describe('Edit Form', () => {
     const widthLabel = screen.getByText(/Width:/i)
     
     // Move slider
-    if (widthSlider) {
+    if (widthSlider && widthSlider instanceof Element) {
       await user.click(widthSlider)
       await user.keyboard('{ArrowRight}')
       

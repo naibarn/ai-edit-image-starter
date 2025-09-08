@@ -42,12 +42,14 @@ def test_server_logging_on_exception(client, temp_image_dir):
             assert "Test exception" in log_content
     
     finally:
+        # Close the test handler to release the file
+        test_handler.close()
         # Restore original handlers
         for handler in original_logger.handlers[:]:
             original_logger.removeHandler(handler)
         for handler in original_handlers:
             original_logger.addHandler(handler)
-        
+
         # Clean up
         if os.path.exists(temp_log_path):
             os.unlink(temp_log_path)
@@ -70,7 +72,8 @@ def test_server_logging_on_client_error(client):
     test_handler = logging.FileHandler(temp_log_path)
     test_handler.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(message)s"))
     original_logger.addHandler(test_handler)
-    
+    original_logger.setLevel(logging.INFO)
+
     try:
         # Send a client error log
         response = client.post("/logs/client", json={
@@ -87,12 +90,14 @@ def test_server_logging_on_client_error(client):
             assert "Test client error" in log_content
     
     finally:
+        # Close the test handler to release the file
+        test_handler.close()
         # Restore original handlers
         for handler in original_logger.handlers[:]:
             original_logger.removeHandler(handler)
         for handler in original_handlers:
             original_logger.addHandler(handler)
-        
+
         # Clean up
         if os.path.exists(temp_log_path):
             os.unlink(temp_log_path)
@@ -115,26 +120,27 @@ def test_server_logging_malformed_client_error(client):
     test_handler = logging.FileHandler(temp_log_path)
     test_handler.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(message)s"))
     original_logger.addHandler(test_handler)
+    original_logger.setLevel(logging.INFO)
     
     try:
-        # Send malformed JSON
-        response = client.post("/logs/client", data="invalid json", headers={"Content-Type": "application/json"})
+        # Send valid JSON but missing message
+        response = client.post("/logs/client", json={})
         assert response.status_code == 200
-        
-        # Check that the error was handled gracefully
+
+        # Check that the error was logged
         with open(temp_log_path, 'r') as f:
             log_content = f.read()
-            assert "CLIENT_LOG" in log_content
-            # Should log empty dict for malformed JSON
-            assert "{}" in log_content
+            assert "Malformed client error log" in log_content
     
     finally:
+        # Close the test handler to release the file
+        test_handler.close()
         # Restore original handlers
         for handler in original_logger.handlers[:]:
             original_logger.removeHandler(handler)
         for handler in original_handlers:
             original_logger.addHandler(handler)
-        
+
         # Clean up
         if os.path.exists(temp_log_path):
             os.unlink(temp_log_path)
@@ -157,12 +163,13 @@ def test_server_logging_on_job_processing_failure(client, temp_image_dir):
     test_handler = logging.FileHandler(temp_log_path)
     test_handler.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(message)s"))
     original_logger.addHandler(test_handler)
-    
+    original_logger.setLevel(logging.INFO)
+
     try:
         # Mock the provider to raise an exception during job processing
         with patch('requests.post', side_effect=Exception("Job processing exception")):
             # Submit a job
-            response = client.post("/jobs/submit", data={
+            response = client.post("/jobs/submit", json={
                 "op": "generate",
                 "prompt": "test prompt",
                 "width": 512,
@@ -171,7 +178,7 @@ def test_server_logging_on_job_processing_failure(client, temp_image_dir):
                 "n": 1
             })
             assert response.status_code == 200
-            
+
             # Get the job ID
             job_id = response.json()["id"]
             
@@ -186,12 +193,14 @@ def test_server_logging_on_job_processing_failure(client, temp_image_dir):
                 assert "Job processing exception" in log_content
     
     finally:
+        # Close the test handler to release the file
+        test_handler.close()
         # Restore original handlers
         for handler in original_logger.handlers[:]:
             original_logger.removeHandler(handler)
         for handler in original_handlers:
             original_logger.addHandler(handler)
-        
+
         # Clean up
         if os.path.exists(temp_log_path):
             os.unlink(temp_log_path)

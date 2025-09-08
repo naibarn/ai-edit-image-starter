@@ -1,4 +1,4 @@
-# \<PROJECT\_NAME>
+# \AI Image Edit Starter
 
 > Monorepo: **Next.js (Frontend)** + **FastAPI (Backend)**, designed **local-first**. Quick to run on a single machine, easy to extend, MIT-licensed.
 

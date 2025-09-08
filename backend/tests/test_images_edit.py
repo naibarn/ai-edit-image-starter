@@ -44,20 +44,22 @@ def test_edit_image_with_base_and_refs(client, temp_image_dir):
         }]
     }
     
-    with patch('requests.post', return_value=mock_response):
-        response = client.post("/images/edit", data={
-            "prompt": "test prompt",
-            "mode": "composite",
-            "width": 512,
-            "height": 512,
-            "fmt": "png",
-            "n": 1,
-            "base": ("base.png", base64.b64decode(base_img_data), "image/png"),
-            "refs": [
-                ("ref1.png", base64.b64decode(ref_img_data), "image/png"),
-                ("ref2.png", base64.b64decode(ref_img_data), "image/png")
-            ]
-        })
+    with patch('main.requests.post', return_value=mock_response):
+        response = client.post("/images/edit",
+            data={
+                "prompt": "test prompt",
+                "mode": "composite",
+                "width": 512,
+                "height": 512,
+                "fmt": "png",
+                "n": 1
+            },
+            files={
+                "base": ("base.png", base64.b64decode(base_img_data), "image/png"),
+                "refs": ("ref1.png", base64.b64decode(ref_img_data), "image/png"),
+                "refs": ("ref2.png", base64.b64decode(ref_img_data), "image/png")
+            }
+        )
         assert response.status_code == 200
         data = response.json()
         assert len(data) == 1
@@ -85,18 +87,22 @@ def test_edit_image_with_mask(client, temp_image_dir):
         }]
     }
     
-    with patch('requests.post', return_value=mock_response):
-        response = client.post("/images/edit", data={
-            "prompt": "test prompt",
-            "mode": "inpaint",
-            "preset": "remove_object",
-            "width": 512,
-            "height": 512,
-            "fmt": "png",
-            "n": 1,
-            "base": ("base.png", base64.b64decode(base_img_data), "image/png"),
-            "mask": ("mask.png", base64.b64decode(mask_img_data), "image/png")
-        })
+    with patch('main.requests.post', return_value=mock_response):
+        response = client.post("/images/edit",
+            data={
+                "prompt": "test prompt",
+                "mode": "inpaint",
+                "preset": "remove_object",
+                "width": 512,
+                "height": 512,
+                "fmt": "png",
+                "n": 1
+            },
+            files={
+                "base": ("base.png", base64.b64decode(base_img_data), "image/png"),
+                "mask": ("mask.png", base64.b64decode(mask_img_data), "image/png")
+            }
+        )
         assert response.status_code == 200
         data = response.json()
         assert len(data) == 1
@@ -146,17 +152,21 @@ def test_edit_image_with_preset(client, temp_image_dir):
         }]
     }
     
-    with patch('requests.post', return_value=mock_response):
-        response = client.post("/images/edit", data={
-            "prompt": "test prompt",
-            "mode": "composite",
-            "preset": "change_clothes",
-            "width": 512,
-            "height": 512,
-            "fmt": "png",
-            "n": 1,
-            "base": ("base.png", base64.b64decode(base_img_data), "image/png")
-        })
+    with patch('main.requests.post', return_value=mock_response):
+        response = client.post("/images/edit",
+            data={
+                "prompt": "test prompt",
+                "mode": "composite",
+                "preset": "change_clothes",
+                "width": 512,
+                "height": 512,
+                "fmt": "png",
+                "n": 1
+            },
+            files={
+                "base": ("base.png", base64.b64decode(base_img_data), "image/png")
+            }
+        )
         assert response.status_code == 200
         data = response.json()
         assert len(data) == 1
