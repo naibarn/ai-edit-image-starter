@@ -73,3 +73,12 @@ global.fetch = vi.fn().mockImplementation(() =>
 // Mock URL.createObjectURL and revokeObjectURL
 global.URL.createObjectURL = vi.fn(() => 'blob:mocked-url')
 global.URL.revokeObjectURL = vi.fn()
+
+// Mock PointerEvent for Radix UI
+;(globalThis as any).PointerEvent ||= class PointerEvent extends MouseEvent {}
+
+// Mock hasPointerCapture method for Radix UI
+;(globalThis as any).HTMLElement.prototype.hasPointerCapture ||= () => false
+
+// Mock scrollTo
+;(window as any).scrollTo ||= () => {}
