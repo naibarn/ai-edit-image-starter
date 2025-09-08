@@ -202,3 +202,37 @@ fastapi.exceptions.HTTPException: 500: OpenRouter API error:
 2025-09-08 20:23:25,038 - app - ERROR - job 633b5c9f208f4f97ae78b3e6793c7e7d failed: Provider error
 2025-09-08 20:23:26,063 - app - ERROR - job 200149e96ac941f1a5b3245757b7c4dc failed: Provider error
 2025-09-08 20:23:32,116 - app - ERROR - job 79a9d39d0d444b909b19084224af0533 failed: Simulated error
+2025-09-08 21:26:05,165 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 374, in images_edit
+    filename = save_base64_image(b64_data, STORAGE_DIR, fmt)
+               ^^^^^^^^^^^^^^^^^
+NameError: name 'save_base64_image' is not defined
+2025-09-08 21:26:05,185 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 374, in images_edit
+    filename = save_base64_image(b64_data, STORAGE_DIR, fmt)
+               ^^^^^^^^^^^^^^^^^
+NameError: name 'save_base64_image' is not defined
+2025-09-08 21:26:05,927 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 293, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 157, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 21:26:09,856 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 374, in images_edit
+    filename = save_base64_image(b64_data, STORAGE_DIR, fmt)
+               ^^^^^^^^^^^^^^^^^
+NameError: name 'save_base64_image' is not defined
+2025-09-08 21:26:09,868 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 374, in images_edit
+    filename = save_base64_image(b64_data, STORAGE_DIR, fmt)
+               ^^^^^^^^^^^^^^^^^
+NameError: name 'save_base64_image' is not defined
+2025-09-08 21:26:35,555 - app - ERROR - job 863ee7fe-1106-464a-aa25-74510e3c6fb5 failed: Provider error
+2025-09-08 21:26:36,917 - app - ERROR - job 5ed94808-c518-4096-ad39-e665332af98b failed: Provider error
