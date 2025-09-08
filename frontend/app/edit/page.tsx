@@ -324,6 +324,7 @@ export default function EditPage() {
                   <Label htmlFor="width-slider">Width: {form.watch("width")}</Label>
                   <Slider
                     id="width-slider"
+                    aria-label="Width"
                     defaultValue={[form.getValues("width")]}
                     min={256}
                     max={2048}
@@ -335,6 +336,7 @@ export default function EditPage() {
                   <Label htmlFor="height-slider">Height: {form.watch("height")}</Label>
                   <Slider
                     id="height-slider"
+                    aria-label="Height"
                     defaultValue={[form.getValues("height")]}
                     min={256}
                     max={2048}
@@ -360,7 +362,7 @@ export default function EditPage() {
                 </div>
                 <div>
                   <Label htmlFor="outputs-slider">Outputs: {form.watch("n")}</Label>
-                  <Slider id="outputs-slider" defaultValue={[form.getValues("n")]} min={1} max={4} step={1} onValueChange={(v) => form.setValue("n", v[0])} />
+                  <Slider id="outputs-slider" aria-label="Outputs" defaultValue={[form.getValues("n")]} min={1} max={4} step={1} onValueChange={(v) => form.setValue("n", v[0])} />
                 </div>
               </div>
 
