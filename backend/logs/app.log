@@ -236,3 +236,13 @@ Traceback (most recent call last):
 NameError: name 'save_base64_image' is not defined
 2025-09-08 21:26:35,555 - app - ERROR - job 863ee7fe-1106-464a-aa25-74510e3c6fb5 failed: Provider error
 2025-09-08 21:26:36,917 - app - ERROR - job 5ed94808-c518-4096-ad39-e665332af98b failed: Provider error
+2025-09-08 21:38:07,455 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 297, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 161, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 21:38:57,536 - app - ERROR - job 5a726154-ddec-4eca-b196-2daa452c5984 failed: Provider error
+2025-09-08 21:38:58,511 - app - ERROR - job 27ea3b57-c8f9-4a1b-801e-2ef301ce4f6e failed: Provider error

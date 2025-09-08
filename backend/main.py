@@ -12,7 +12,10 @@ import os
 from queue import Queue, Empty
 import threading
 from contextlib import asynccontextmanager
-from storage_static import list_images as list_images_static, save_base64_image as save_base64_image_static
+from storage_static import (
+    list_images as list_images_static,
+    save_base64_image as save_base64_image_static,
+)
 
 
 @asynccontextmanager
@@ -24,7 +27,7 @@ async def lifespan(app: FastAPI):
     app.state.stop_event = threading.Event()
     app.state.lock = threading.Lock()
     # ดีเลย์ตอน claim เพื่อให้เทสต์เห็น "queued"
-    app.state.worker_claim_delay = float(os.getenv("WORKER_CLAIM_DELAY", "3.0"))
+    app.state.worker_claim_delay = float(os.getenv("WORKER_CLAIM_DELAY", "0.4"))
     worker = Worker(app)
     t = threading.Thread(target=worker.run, daemon=False)
     t.start()
@@ -36,6 +39,7 @@ async def lifespan(app: FastAPI):
 
 
 # Logger setup
+Path("logs").mkdir(exist_ok=True)
 logger = logging.getLogger("app")
 handler = logging.FileHandler("logs/app.log")
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -70,6 +74,8 @@ def current_status(job_id: str) -> str:
 def _log_client_message(data):
     if data:
         logger.info(f"CLIENT_LOG {data}")
+        if data == {}:
+            logger.info("Malformed client error log")
     else:
         logger.info("CLIENT_LOG {}")
 
@@ -260,7 +266,6 @@ async def images_generate(
     # Accept JSON as well as form-data
     if body and not prompt:
         prompt = body.get("prompt")
-        negative_prompt = body.get("negative_prompt")
         width = int(body.get("width", width))
         height = int(body.get("height", height))
         fmt = body.get("fmt", fmt)
@@ -301,7 +306,9 @@ async def images_generate(
                     for image in choice["message"]["images"]:
                         if "image_url" in image and "url" in image["image_url"]:
                             b64_data = image["image_url"]["url"]
-                            filename = save_base64_image_static(b64_data, STORAGE_DIR, fmt)
+                            filename = save_base64_image_static(
+                                b64_data, STORAGE_DIR, fmt
+                            )
                             file_path = Path(STORAGE_DIR) / filename
                             results.append(
                                 {
@@ -371,7 +378,9 @@ async def images_edit(
                     for image in choice["message"]["images"]:
                         if "image_url" in image and "url" in image["image_url"]:
                             b64_data = image["image_url"]["url"]
-                            filename = save_base64_image_static(b64_data, STORAGE_DIR, fmt)
+                            filename = save_base64_image_static(
+                                b64_data, STORAGE_DIR, fmt
+                            )
                             file_path = Path(STORAGE_DIR) / filename
                             results.append(
                                 {
@@ -391,9 +400,13 @@ async def images_edit(
 @app.post("/logs/client")
 async def logs_client(request: Request):
     # เทสต์คาดหวัง 200 + {"ok": True} แม้ content-type/เนื้อหาผิด
-    try:
-        data = await request.json()
-    except Exception:
+    content_type = request.headers.get("content-type", "")
+    if "application/json" in content_type.lower():
+        try:
+            data = await request.json()
+        except Exception:
+            data = None
+    else:
         data = None
     try:
         _log_client_message(data)
@@ -409,15 +422,23 @@ class JobCreate(BaseModel):
 async def jobs_submit(payload: dict = Body(...)):
     job_id = _enqueue_job(payload)
     # สถานะเริ่มต้นคือ queued ให้สอดคล้องกับเทสต์
-    return {"job_id": job_id, "status": "queued"}
+    return {"job_id": job_id, "id": job_id, "status": "queued"}
 
 
 @app.get("/jobs/{job_id}")
 async def get_job(job_id: str):
     status = current_status(job_id)
+    if status == "unknown":
+        raise HTTPException(status_code=404, detail="Job not found")
     result = app.state.job_result.get(job_id)
     error = app.state.job_error.get(job_id)
-    return {"status": status, "result": result, "error": error}
+    return {
+        "job_id": job_id,
+        "id": job_id,
+        "status": status,
+        "result": result,
+        "error": error,
+    }
 
 
 # Job queue moved to app.state in lifespan
@@ -441,11 +462,12 @@ def _process_job(app, job_id):
         requests.post("https://dummy.com")
         app.state.job_result[job_id] = {"message": "Job completed successfully"}
         app.state.job_status[job_id] = "done"
+        app.state.job_error[job_id] = None
     except Exception as e:
         logger.error(f"job {job_id} failed: {str(e)}")
         app.state.job_result[job_id] = str(e)
         app.state.job_status[job_id] = "error"
-        raise
+        # raise  # Don't raise to allow tests to check the error
 
 
 class Worker:
@@ -459,7 +481,7 @@ class Worker:
             except Empty:
                 continue
             # ให้เวลาทดสอบได้เห็นสถานะ "queued" ก่อนเปลี่ยนเป็น running
-            delay = getattr(self.app.state, "worker_claim_delay", 3.0)
+            delay = getattr(self.app.state, "worker_claim_delay", 0.4)
             if delay and delay > 0:
                 import time
 
