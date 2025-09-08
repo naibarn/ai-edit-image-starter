@@ -3,6 +3,7 @@ uvicorn
 pydantic
 sqlalchemy
 httpx
+requests
 # dev/test
 pytest
 ruff
