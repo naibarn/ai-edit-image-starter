@@ -4,6 +4,7 @@ pydantic
 sqlalchemy
 httpx
 requests
+python-multipart
 # dev/test
 pytest
 ruff
