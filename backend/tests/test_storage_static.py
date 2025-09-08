@@ -24,6 +24,7 @@ def test_list_images_with_files(client_with_temp_dir, temp_image_dir):
     with open(storage_path, "wb") as f:
         f.write(img_bytes.getvalue())
 
+    # Use the client that has the temporary directory mounted
     response = client_with_temp_dir.get("/images")
     assert response.status_code == 200
     data = response.json()

@@ -64,10 +64,10 @@ def client_with_temp_dir(temp_image_dir):
     from fastapi import FastAPI
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.staticfiles import StaticFiles
-    
+
     # Create a new test app
     test_app = FastAPI(title="ImageGen Backend Test")
-    
+
     # Add CORS middleware
     test_app.add_middleware(
         CORSMiddleware,
@@ -76,14 +76,18 @@ def client_with_temp_dir(temp_image_dir):
         allow_methods=["*"],
         allow_headers=["*"],
     )
-    
+
+    # Set the images directory in app state for testing
+    images_dir = os.path.join(temp_image_dir, "images")
+    test_app.state.images_dir = Path(images_dir)
+
     # Mount static files to the temporary directory
     test_app.mount("/static", StaticFiles(directory=temp_image_dir), name="static")
-    
+
     # Copy the routes from the original app
     for route in app.routes:
         if hasattr(route, 'path') and hasattr(route, 'endpoint'):
             if not route.path.startswith("/static"):  # Skip the original static mount
                 test_app.add_route(route.path, route.endpoint, methods=route.methods)
-    
+
     return TestClient(test_app)

@@ -66,9 +66,12 @@ class ImageResult(BaseModel):
 @app.get("/images")
 def list_images():
     """List all images sorted by newest first"""
+    # Use the storage directory from app state if available (for testing), otherwise use global
+    storage_dir = getattr(app.state, 'images_dir', STORAGE_DIR) if hasattr(app.state, 'images_dir') else STORAGE_DIR
+
     images = []
-    if STORAGE_DIR.exists():
-        for img_file in sorted(STORAGE_DIR.glob("*"), key=lambda x: x.stat().st_mtime, reverse=True):
+    if storage_dir.exists():
+        for img_file in sorted(storage_dir.glob("*"), key=lambda x: x.stat().st_mtime, reverse=True):
             if img_file.is_file() and img_file.suffix.lower() in ['.png', '.jpg', '.jpeg']:
                 images.append({
                     "filename": img_file.name,
