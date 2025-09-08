@@ -91,8 +91,8 @@
 ### Epic D — Queue (SQLite + Workers)
 | ID | Title          | MoSCoW | Priority | SP | EstHrs | Owner | Status  | Deps     | TestId | TestFiles                                          | TestStatus |
 |----|----------------|--------|----------|----|--------|-------|---------|----------|--------|----------------------------------------------------|------------|
-| D1 | Job APIs       | S      | P2       | 3  | 10     | BE    | Planned | B2-OR,H1 | T-D1   | backend/tests/test_jobs_api.py                     | NotStarted |
-| D2 | Worker Threads | S      | P2       | 3  | 10     | BE    | Planned | D1       | T-D2   | backend/tests/test_workers.py                      | NotStarted |
+| D1 | Job APIs       | S      | P2       | 3  | 10     | BE    | Done    | B2-OR,H1 | T-D1   | backend/tests/test_jobs_api.py                     | Passed     |
+| D2 | Worker Threads | S      | P2       | 3  | 10     | BE    | Done    | D1       | T-D2   | backend/tests/test_workers.py                      | Passed     |
 | E4 | FE Queue Flow  | S      | P2       | 2  | 6      | FE    | Planned | D1,D2    | T-E4   | frontend/tests/fe-queue-flow.test.tsx              | NotStarted |
 
 **Unit Test Spec**
