@@ -65,8 +65,8 @@
 | ID | Title                 | MoSCoW | Priority | SP | EstHrs | Owner | Status     | Deps | TestId | TestFiles                                              | TestStatus |
 |----|-----------------------|--------|----------|----|--------|-------|------------|------|--------|--------------------------------------------------------|------------|
 | E1 | Form & Uploads        | M      | P1       | 5  | 12     | FE    | Done       | A2,B2-OR | T-E1 | frontend/tests/edit-form.test.tsx                     | Passed     |
-| E2 | Presets/Controls      | M      | P1       | 2  | 6      | FE    | Planned    | E1   | T-E2   | frontend/tests/presets-controls.test.tsx              | NotStarted |
-| E3 | UX Feedback & Gallery | M      | P1       | 2  | 6      | FE    | Planned    | E1   | T-E3   | frontend/tests/ux-feedback-gallery.test.tsx           | NotStarted |
+| E2 | Presets/Controls      | M      | P1       | 2  | 6      | FE    | Done       | E1   | T-E2   | frontend/tests/presets-controls.test.tsx              | Passed     |
+| E3 | UX Feedback & Gallery | M      | P1       | 2  | 6      | FE    | Done       | E1   | T-E3   | frontend/tests/ux-feedback-gallery.test.tsx           | Passed     |
 
 **Unit Test Spec (Vitest + Testing Library)**
 - **T-E1**: 
