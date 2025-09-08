@@ -64,7 +64,7 @@
 ### Epic E — Frontend UI (Next.js + shadcn/ui + sonner)
 | ID | Title                 | MoSCoW | Priority | SP | EstHrs | Owner | Status     | Deps | TestId | TestFiles                                              | TestStatus |
 |----|-----------------------|--------|----------|----|--------|-------|------------|------|--------|--------------------------------------------------------|------------|
-| E1 | Form & Uploads        | M      | P1       | 5  | 12     | FE    | Planned    | A2,B2-OR | T-E1 | frontend/tests/edit-form.test.tsx                     | NotStarted |
+| E1 | Form & Uploads        | M      | P1       | 5  | 12     | FE    | InProgress | A2,B2-OR | T-E1 | frontend/tests/edit-form.test.tsx                     | NotStarted |
 | E2 | Presets/Controls      | M      | P1       | 2  | 6      | FE    | Planned    | E1   | T-E2   | frontend/tests/presets-controls.test.tsx              | NotStarted |
 | E3 | UX Feedback & Gallery | M      | P1       | 2  | 6      | FE    | Planned    | E1   | T-E3   | frontend/tests/ux-feedback-gallery.test.tsx           | NotStarted |
 
