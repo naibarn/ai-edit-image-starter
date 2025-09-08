@@ -51,3 +51,25 @@ global.IntersectionObserver = vi.fn().mockImplementation(() => ({
   thresholds: [],
   takeRecords: vi.fn(),
 }))
+
+// Mock ResizeObserver
+global.ResizeObserver = vi.fn().mockImplementation(() => ({
+  disconnect: vi.fn(),
+  observe: vi.fn(),
+  unobserve: vi.fn(),
+}))
+
+// Mock fetch
+global.fetch = vi.fn().mockImplementation(() =>
+  Promise.resolve({
+    json: () => Promise.resolve([]),
+    text: () => Promise.resolve(''),
+    ok: true,
+    status: 200,
+    statusText: 'OK',
+  } as Response)
+)
+
+// Mock URL.createObjectURL and revokeObjectURL
+global.URL.createObjectURL = vi.fn(() => 'blob:mocked-url')
+global.URL.revokeObjectURL = vi.fn()

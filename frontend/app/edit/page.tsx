@@ -282,9 +282,9 @@ export default function EditPage() {
               </div>
 
               <div className="space-y-2">
-                <Label>Preset</Label>
+                <Label htmlFor="preset-select">Preset</Label>
                 <Select defaultValue={form.getValues("preset")} onValueChange={(v) => form.setValue("preset", v as any)}>
-                  <SelectTrigger>
+                  <SelectTrigger id="preset-select">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -297,9 +297,9 @@ export default function EditPage() {
               </div>
 
               <div className="space-y-2">
-                <Label>Provider</Label>
+                <Label htmlFor="provider-select">Provider</Label>
                 <Select defaultValue={form.getValues("provider")} onValueChange={(v) => form.setValue("provider", v as any)}>
-                  <SelectTrigger>
+                  <SelectTrigger id="provider-select">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -321,8 +321,9 @@ export default function EditPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label>Width: {form.watch("width")}</Label>
+                  <Label htmlFor="width-slider">Width: {form.watch("width")}</Label>
                   <Slider
+                    id="width-slider"
                     defaultValue={[form.getValues("width")]}
                     min={256}
                     max={2048}
@@ -331,8 +332,9 @@ export default function EditPage() {
                   />
                 </div>
                 <div>
-                  <Label>Height: {form.watch("height")}</Label>
+                  <Label htmlFor="height-slider">Height: {form.watch("height")}</Label>
                   <Slider
+                    id="height-slider"
                     defaultValue={[form.getValues("height")]}
                     min={256}
                     max={2048}
@@ -344,9 +346,9 @@ export default function EditPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label>Format</Label>
+                  <Label htmlFor="format-select">Format</Label>
                   <Select defaultValue={form.getValues("fmt")} onValueChange={(v) => form.setValue("fmt", v as any)}>
-                    <SelectTrigger>
+                    <SelectTrigger id="format-select">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -357,8 +359,8 @@ export default function EditPage() {
                   </Select>
                 </div>
                 <div>
-                  <Label>Outputs: {form.watch("n")}</Label>
-                  <Slider defaultValue={[form.getValues("n")]} min={1} max={4} step={1} onValueChange={(v) => form.setValue("n", v[0])} />
+                  <Label htmlFor="outputs-slider">Outputs: {form.watch("n")}</Label>
+                  <Slider id="outputs-slider" defaultValue={[form.getValues("n")]} min={1} max={4} step={1} onValueChange={(v) => form.setValue("n", v[0])} />
                 </div>
               </div>
 

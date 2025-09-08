@@ -16,11 +16,24 @@ import threading
 from contextlib import asynccontextmanager
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
-    worker = Worker(job_queue)
-    thread = threading.Thread(target=worker.run, daemon=True)
-    thread.start()
-    yield
+async def lifespan(app):
+    import threading, queue
+    app.state.job_queue = queue.Queue()
+    app.state.job_status = {}     # {job_id: "queued|running|done|error"}
+    app.state.job_payloads = {}   # {job_id: payload}
+    app.state.job_result = {}     # {job_id: result or error}
+    app.state.lock = threading.Lock()
+    app.state.stop_event = threading.Event()
+    app.state.worker = Worker(app)
+    app.state.worker_thread = threading.Thread(
+        target=app.state.worker.run, name="worker", daemon=False
+    )
+    app.state.worker_thread.start()
+    try:
+        yield
+    finally:
+        app.state.stop_event.set()
+        app.state.worker_thread.join(timeout=5)
 
 # Logger setup
 logger = logging.getLogger("app")
@@ -327,57 +340,67 @@ async def logs_client(data: dict = Body(...)):
         logger.error("Malformed client error log")
         return {"status": "error"}
 
+class JobCreate(BaseModel):
+    payload: dict
+
 @app.post("/jobs/submit")
-async def jobs_submit(data: dict = Body(...)):
+async def jobs_submit(job: JobCreate):
     job_id = str(uuid4())
-    job_payloads[job_id] = data
-    job_queue.put(job_id)
-    job_status[job_id] = "queued"
-    return {"id": job_id}
+    app.state.job_payloads[job_id] = job.payload
+    app.state.job_queue.put(job_id)
+    app.state.job_status[job_id] = "queued"
+    return {"job_id": job_id, "status": "queued"}
 
 @app.get("/jobs/{job_id}")
 async def get_job(job_id: str):
-    if job_id not in job_status:
+    if job_id not in app.state.job_status:
         raise HTTPException(status_code=404, detail="Job not found")
+    status = app.state.job_status[job_id]
+    result = app.state.job_result.get(job_id) if status in ["done", "error"] else None
+    error = app.state.job_result.get(job_id) if status == "error" else None
     return {
         "job_id": job_id,
-        "status": job_status[job_id],
-        "result": None
+        "status": status,
+        "result": result,
+        "error": error
     }
 
-# Job queue (in-memory for now, should be SQLite)
-job_queue = queue.Queue()
-job_status = {}
-job_payloads = {}
+# Job queue moved to app.state in lifespan
 
-def _claim_one_job():
+def _claim_one_job(app):
     try:
-        return job_queue.get_nowait()
+        return app.state.job_queue.get_nowait()
     except queue.Empty:
         return None
 
-def _process_job(job_id):
+def _process_job(app, job_id):
     # Mock processing
     # Simulate failure by calling API (mocked in test)
     try:
         requests.post("https://dummy.com")
+        app.state.job_result[job_id] = {"message": "Job completed successfully"}
+        app.state.job_status[job_id] = "done"
     except Exception as e:
         logger.error(f"job {job_id} failed: {str(e)}")
+        app.state.job_result[job_id] = str(e)
+        app.state.job_status[job_id] = "error"
         raise
 
 class Worker:
-    def __init__(self, queue):
-        self.queue = queue
+    def __init__(self, app):
+        self.app = app
 
     def run(self):
-        while True:
+        while not self.app.state.stop_event.is_set():
             try:
-                job_id = self.queue.get()
-                job_status[job_id] = "running"
+                job_id = self.app.state.job_queue.get(timeout=0.2)
+                with self.app.state.lock:
+                    self.app.state.job_status[job_id] = "running"
                 try:
-                    _process_job(job_id)
-                    job_status[job_id] = "done"
+                    _process_job(self.app, job_id)
                 except Exception as e:
-                    job_status[job_id] = "error"
+                    pass  # _process_job already sets status to error
+            except queue.Empty:
+                continue
             except Exception as e:
                 logger.exception("Worker error")

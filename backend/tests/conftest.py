@@ -2,6 +2,8 @@ import pytest
 import tempfile
 import os
 import sys
+import queue
+import threading
 from fastapi.testclient import TestClient
 
 # Add the parent directory to the path so we can import main
@@ -10,7 +12,28 @@ from main import app
 
 @pytest.fixture
 def client():
+    # Initialize app.state for testing
+    app.state.job_queue = queue.Queue()
+    app.state.job_status = {}
+    app.state.job_payloads = {}
+    app.state.job_result = {}
+    app.state.lock = threading.Lock()
+    app.state.stop_event = threading.Event()
     return TestClient(app)
+
+@pytest.fixture
+def client_with_worker(client):
+    # Start worker for testing
+    from main import Worker
+    app.state.worker = Worker(app)
+    app.state.worker_thread = threading.Thread(
+        target=app.state.worker.run, name="test_worker", daemon=True
+    )
+    app.state.worker_thread.start()
+    yield client
+    # Stop worker after test
+    app.state.stop_event.set()
+    app.state.worker_thread.join(timeout=1)
 
 @pytest.fixture
 def temp_image_dir():

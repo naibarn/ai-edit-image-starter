@@ -137,3 +137,54 @@ Traceback (most recent call last):
   File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 100, in call_openrouter_api
     raise HTTPException(status_code=500, detail=f"OpenRouter API error: {response.text}")
 fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 14:24:59,499 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 245, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 113, in call_openrouter_api
+    raise HTTPException(status_code=500, detail=f"OpenRouter API error: {response.text}")
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 14:26:29,300 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 245, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 113, in call_openrouter_api
+    raise HTTPException(status_code=500, detail=f"OpenRouter API error: {response.text}")
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 14:27:10,828 - app - ERROR - job d593085a-0414-4f3e-af0f-8113c7e624f5 failed: Provider error
+2025-09-08 14:32:59,957 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 245, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 113, in call_openrouter_api
+    raise HTTPException(status_code=500, detail=f"OpenRouter API error: {response.text}")
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 14:33:00,040 - app - ERROR - job de19791c-3dc7-4c3c-a12b-1cbd57a7de97 failed: Provider error
+2025-09-08 14:33:00,802 - app - ERROR - job 68f8f00d-7077-4492-9331-aedaaf95d9a8 failed: Test error
+2025-09-08 14:33:21,547 - app - ERROR - job 255c605a-7985-4f1d-908b-8a1aedf94b2f failed: Provider error
+2025-09-08 14:33:21,677 - app - ERROR - job 05a23cbf-c948-40e8-9313-235c198a1f4a failed: Simulated error
+2025-09-08 14:35:58,170 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 245, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 113, in call_openrouter_api
+    raise HTTPException(status_code=500, detail=f"OpenRouter API error: {response.text}")
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 14:36:19,615 - app - ERROR - job 25d6bd2b-3200-4b5b-a684-ec6e282c2132 failed: Test error
+2025-09-08 14:36:40,892 - app - ERROR - job d5866802-6db9-4e6d-93e1-c69157fb236a failed: Provider error
+2025-09-08 14:36:51,204 - app - ERROR - job 290f6892-862b-4623-add5-4a64d9153911 failed: Simulated error
+2025-09-08 14:38:07,647 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 245, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 113, in call_openrouter_api
+    raise HTTPException(status_code=500, detail=f"OpenRouter API error: {response.text}")
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 14:38:29,053 - app - ERROR - job e1b581e7-5539-4ecc-8860-c8390baefa32 failed: Test error
+2025-09-08 14:38:50,053 - app - ERROR - job 69a32c2d-2480-477e-9a65-31486192589b failed: Provider error
+2025-09-08 14:38:50,386 - app - ERROR - job 1a5d8209-852a-4175-b09a-f7e2b7ff3503 failed: Simulated error
