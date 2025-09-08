@@ -10,4 +10,7 @@ __pycache__/
 .env.*
 .kilocode/logs/
 .DS_Store
-.vscode/
+.vscode/  
+# Kilo/MCP  
+.kilocode/mcp.json  
+.kilocode/*.secrets.* 
