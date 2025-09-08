@@ -4,6 +4,7 @@ import os
 import sys
 import queue
 import threading
+from pathlib import Path
 from fastapi.testclient import TestClient
 
 # Add the parent directory to the path so we can import main

@@ -188,3 +188,17 @@ fastapi.exceptions.HTTPException: 500: OpenRouter API error:
 2025-09-08 14:38:29,053 - app - ERROR - job e1b581e7-5539-4ecc-8860-c8390baefa32 failed: Test error
 2025-09-08 14:38:50,053 - app - ERROR - job 69a32c2d-2480-477e-9a65-31486192589b failed: Provider error
 2025-09-08 14:38:50,386 - app - ERROR - job 1a5d8209-852a-4175-b09a-f7e2b7ff3503 failed: Simulated error
+2025-09-08 20:21:35,849 - app - ERROR - job dcfa2575d2b24b94892f2496b5880028 failed: Provider error
+2025-09-08 20:22:13,120 - app - ERROR - job 80974d06328b4d74bee14f41340dcc1f failed: Provider error
+2025-09-08 20:22:34,829 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 249, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 117, in call_openrouter_api
+    raise HTTPException(status_code=500, detail=f"OpenRouter API error: {response.text}")
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 20:22:57,234 - app - ERROR - job 633ba0abab504c24b3c235938ea9c02d failed: Test error
+2025-09-08 20:23:25,038 - app - ERROR - job 633b5c9f208f4f97ae78b3e6793c7e7d failed: Provider error
+2025-09-08 20:23:26,063 - app - ERROR - job 200149e96ac941f1a5b3245757b7c4dc failed: Provider error
+2025-09-08 20:23:32,116 - app - ERROR - job 79a9d39d0d444b909b19084224af0533 failed: Simulated error

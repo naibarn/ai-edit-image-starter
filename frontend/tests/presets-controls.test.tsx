@@ -42,17 +42,17 @@ describe('Presets and Controls', () => {
     })
 
     // Check for preset dropdown
-    const presetSelect = screen.getByLabelText(/Preset/i)
+    const presetSelect = screen.getByRole('combobox', { name: /preset/i })
     expect(presetSelect).toBeInTheDocument()
 
     // Open the dropdown
-    fireEvent.click(presetSelect)
+    await userEvent.click(presetSelect)
 
     // Check for all preset options
-    expect(screen.getByText(/none/i)).toBeInTheDocument()
-    expect(screen.getByText(/blur background/i)).toBeInTheDocument()
-    expect(screen.getByText(/change clothes/i)).toBeInTheDocument()
-    expect(screen.getByText(/remove object/i)).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: /none/i })).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: /blur background/i })).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: /change clothes/i })).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: /remove object/i })).toBeInTheDocument()
   })
 
   test('selects blur background preset', async () => {
@@ -63,14 +63,14 @@ describe('Presets and Controls', () => {
     const user = userEvent.setup()
 
     // Find and open the preset dropdown
-    const presetSelect = screen.getByLabelText(/Preset/i)
+    const presetSelect = screen.getByRole('combobox', { name: /preset/i })
     await user.click(presetSelect)
 
     // Select blur background
-    await user.click(screen.getByText(/blur background/i))
+    await user.click(screen.getByRole('option', { name: /blur background/i }))
 
     // Verify the selection
-    expect(screen.getByText(/blur background/i)).toBeInTheDocument()
+    expect(screen.getByRole('combobox', { name: /preset/i })).toHaveTextContent(/blur background/i)
   })
 
   test('selects change clothes preset', async () => {
@@ -81,14 +81,14 @@ describe('Presets and Controls', () => {
     const user = userEvent.setup()
 
     // Find and open the preset dropdown
-    const presetSelect = screen.getByLabelText(/Preset/i)
+    const presetSelect = screen.getByRole('combobox', { name: /preset/i })
     await user.click(presetSelect)
 
     // Select change clothes
-    await user.click(screen.getByText(/change clothes/i))
+    await user.click(screen.getByRole('option', { name: /change clothes/i }))
 
     // Verify the selection
-    expect(screen.getByText(/change clothes/i)).toBeInTheDocument()
+    expect(screen.getByRole('combobox', { name: /preset/i })).toHaveTextContent(/change clothes/i)
   })
 
   test('selects remove object preset', async () => {
@@ -99,14 +99,14 @@ describe('Presets and Controls', () => {
     const user = userEvent.setup()
 
     // Find and open the preset dropdown
-    const presetSelect = screen.getByLabelText(/Preset/i)
+    const presetSelect = screen.getByRole('combobox', { name: /preset/i })
     await user.click(presetSelect)
 
     // Select remove object
-    await user.click(screen.getByText(/remove object/i))
+    await user.click(screen.getByRole('option', { name: /remove object/i }))
 
     // Verify the selection
-    expect(screen.getByText(/remove object/i)).toBeInTheDocument()
+    expect(screen.getByRole('combobox', { name: /preset/i })).toHaveTextContent(/remove object/i)
   })
 
   test('renders all provider options', async () => {
@@ -115,16 +115,16 @@ describe('Presets and Controls', () => {
     })
 
     // Check for provider dropdown
-    const providerSelect = screen.getByLabelText(/Provider/i)
+    const providerSelect = screen.getByRole('combobox', { name: /provider/i })
     expect(providerSelect).toBeInTheDocument()
 
     // Open the dropdown
-    fireEvent.click(providerSelect)
+    await userEvent.click(providerSelect)
 
     // Check for all provider options
-    expect(screen.getByText(/auto/i)).toBeInTheDocument()
-    expect(screen.getByText(/OpenRouter/i)).toBeInTheDocument()
-    expect(screen.getByText(/Gemini/i)).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: /auto/i })).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: /OpenRouter/i })).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: /Gemini/i })).toBeInTheDocument()
   })
 
   test('selects auto provider', async () => {
@@ -135,14 +135,14 @@ describe('Presets and Controls', () => {
     const user = userEvent.setup()
 
     // Find and open the provider dropdown
-    const providerSelect = screen.getByLabelText(/Provider/i)
+    const providerSelect = screen.getByRole('combobox', { name: /provider/i })
     await user.click(providerSelect)
 
     // Select auto
-    await user.click(screen.getByText(/auto/i))
+    await user.click(screen.getByRole('option', { name: /auto/i }))
 
     // Verify the selection
-    expect(screen.getByText(/auto/i)).toBeInTheDocument()
+    expect(screen.getByRole('combobox', { name: /provider/i })).toHaveTextContent(/auto/i)
   })
 
   test('selects OpenRouter provider', async () => {
@@ -153,14 +153,14 @@ describe('Presets and Controls', () => {
     const user = userEvent.setup()
 
     // Find and open the provider dropdown
-    const providerSelect = screen.getByLabelText(/Provider/i)
+    const providerSelect = screen.getByRole('combobox', { name: /provider/i })
     await user.click(providerSelect)
 
     // Select OpenRouter
-    await user.click(screen.getByText(/OpenRouter/i))
+    await user.click(screen.getByRole('option', { name: /OpenRouter/i }))
 
     // Verify the selection
-    expect(screen.getByText(/OpenRouter/i)).toBeInTheDocument()
+    expect(screen.getByRole('combobox', { name: /provider/i })).toHaveTextContent(/OpenRouter/i)
   })
 
   test('selects Gemini provider', async () => {
@@ -171,14 +171,14 @@ describe('Presets and Controls', () => {
     const user = userEvent.setup()
 
     // Find and open the provider dropdown
-    const providerSelect = screen.getByLabelText(/Provider/i)
+    const providerSelect = screen.getByRole('combobox', { name: /provider/i })
     await user.click(providerSelect)
 
     // Select Gemini
-    await user.click(screen.getByText(/Gemini/i))
+    await user.click(screen.getByRole('option', { name: /Gemini/i }))
 
     // Verify the selection
-    expect(screen.getByText(/Gemini/i)).toBeInTheDocument()
+    expect(screen.getByRole('combobox', { name: /provider/i })).toHaveTextContent(/Gemini/i)
   })
 
   test('renders all format options', async () => {
@@ -187,16 +187,16 @@ describe('Presets and Controls', () => {
     })
 
     // Check for format dropdown
-    const formatSelect = screen.getByLabelText(/Format/i)
+    const formatSelect = screen.getByRole('combobox', { name: /format/i })
     expect(formatSelect).toBeInTheDocument()
 
     // Open the dropdown
-    fireEvent.click(formatSelect)
+    await userEvent.click(formatSelect)
 
     // Check for all format options
-    expect(screen.getByText(/png/i)).toBeInTheDocument()
-    expect(screen.getByText(/webp/i)).toBeInTheDocument()
-    expect(screen.getByText(/jpg/i)).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: /png/i })).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: /webp/i })).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: /jpg/i })).toBeInTheDocument()
   })
 
   test('selects png format', async () => {
@@ -207,14 +207,14 @@ describe('Presets and Controls', () => {
     const user = userEvent.setup()
 
     // Find and open the format dropdown
-    const formatSelect = screen.getByLabelText(/Format/i)
+    const formatSelect = screen.getByRole('combobox', { name: /format/i })
     await user.click(formatSelect)
 
     // Select png
-    await user.click(screen.getByText(/png/i))
+    await user.click(screen.getByRole('option', { name: /png/i }))
 
     // Verify the selection
-    expect(screen.getByText(/png/i)).toBeInTheDocument()
+    expect(screen.getByRole('combobox', { name: /format/i })).toHaveTextContent(/png/i)
   })
 
   test('selects webp format', async () => {
@@ -225,14 +225,14 @@ describe('Presets and Controls', () => {
     const user = userEvent.setup()
 
     // Find and open the format dropdown
-    const formatSelect = screen.getByLabelText(/Format/i)
+    const formatSelect = screen.getByRole('combobox', { name: /format/i })
     await user.click(formatSelect)
 
     // Select webp
-    await user.click(screen.getByText(/webp/i))
+    await user.click(screen.getByRole('option', { name: /webp/i }))
 
     // Verify the selection
-    expect(screen.getByText(/webp/i)).toBeInTheDocument()
+    expect(screen.getByRole('combobox', { name: /format/i })).toHaveTextContent(/webp/i)
   })
 
   test('selects jpg format', async () => {
@@ -243,14 +243,14 @@ describe('Presets and Controls', () => {
     const user = userEvent.setup()
 
     // Find and open the format dropdown
-    const formatSelect = screen.getByLabelText(/Format/i)
+    const formatSelect = screen.getByRole('combobox', { name: /format/i })
     await user.click(formatSelect)
 
     // Select jpg
-    await user.click(screen.getByText(/jpg/i))
+    await user.click(screen.getByRole('option', { name: /jpg/i }))
 
     // Verify the selection
-    expect(screen.getByText(/jpg/i)).toBeInTheDocument()
+    expect(screen.getByRole('combobox', { name: /format/i })).toHaveTextContent(/jpg/i)
   })
 
   test('adjusts width slider', async () => {
@@ -260,23 +260,20 @@ describe('Presets and Controls', () => {
 
     const user = userEvent.setup()
 
-    // Find width slider and label
-    const widthLabel = screen.getByText(/Width:/i)
-    const widthSlider = screen.getByLabelText(/Width/i).nextSibling
+    // Find width slider using role-based query
+    const widthSlider = screen.getByRole('slider', { name: /width/i })
 
     // Check initial value
-    expect(widthLabel.textContent).toContain('1024')
+    expect(widthSlider).toHaveAttribute('aria-valuenow', '1024')
 
     // Move slider to the right
-    if (widthSlider && widthSlider instanceof Element) {
-      await user.click(widthSlider)
-      await user.keyboard('{ArrowRight}')
+    await user.click(widthSlider)
+    await user.keyboard('{ArrowRight}')
 
-      // Check updated value
-      await waitFor(() => {
-        expect(widthLabel.textContent).toContain('1088') // 1024 + 64
-      })
-    }
+    // Check updated value
+    await waitFor(() => {
+      expect(widthSlider).toHaveAttribute('aria-valuenow', '1088') // 1024 + 64
+    })
   })
 
   test('adjusts height slider', async () => {
@@ -286,23 +283,20 @@ describe('Presets and Controls', () => {
 
     const user = userEvent.setup()
 
-    // Find height slider and label
-    const heightLabel = screen.getByText(/Height:/i)
-    const heightSlider = screen.getByLabelText(/Height/i).nextSibling
+    // Find height slider using role-based query
+    const heightSlider = screen.getByRole('slider', { name: /height/i })
 
     // Check initial value
-    expect(heightLabel.textContent).toContain('1024')
+    expect(heightSlider).toHaveAttribute('aria-valuenow', '1024')
 
     // Move slider to the right
-    if (heightSlider && heightSlider instanceof Element) {
-      await user.click(heightSlider)
-      await user.keyboard('{ArrowRight}')
+    await user.click(heightSlider)
+    await user.keyboard('{ArrowRight}')
 
-      // Check updated value
-      await waitFor(() => {
-        expect(heightLabel.textContent).toContain('1088') // 1024 + 64
-      })
-    }
+    // Check updated value
+    await waitFor(() => {
+      expect(heightSlider).toHaveAttribute('aria-valuenow', '1088') // 1024 + 64
+    })
   })
 
   test('adjusts outputs slider', async () => {
@@ -312,23 +306,20 @@ describe('Presets and Controls', () => {
 
     const user = userEvent.setup()
 
-    // Find outputs slider and label
-    const outputsLabel = screen.getByText(/Outputs:/i)
-    const outputsSlider = screen.getByLabelText(/Outputs:/i).nextSibling
+    // Find outputs slider using role-based query
+    const outputsSlider = screen.getByRole('slider', { name: /outputs/i })
 
     // Check initial value
-    expect(outputsLabel.textContent).toContain('1')
+    expect(outputsSlider).toHaveAttribute('aria-valuenow', '1')
 
     // Move slider to the right
-    if (outputsSlider && outputsSlider instanceof Element) {
-      await user.click(outputsSlider)
-      await user.keyboard('{ArrowRight}')
+    await user.click(outputsSlider)
+    await user.keyboard('{ArrowRight}')
 
-      // Check updated value
-      await waitFor(() => {
-        expect(outputsLabel.textContent).toContain('2')
-      })
-    }
+    // Check updated value
+    await waitFor(() => {
+      expect(outputsSlider).toHaveAttribute('aria-valuenow', '2')
+    })
   })
 
   test('toggles queue switch', async () => {
@@ -368,14 +359,14 @@ describe('Presets and Controls', () => {
     const user = userEvent.setup()
 
     // Select blur background preset
-    const presetSelect = screen.getByLabelText(/Preset/i)
+    const presetSelect = screen.getByRole('combobox', { name: /preset/i })
     await user.click(presetSelect)
-    await user.click(screen.getByText(/blur background/i))
+    await user.click(screen.getByRole('option', { name: /blur background/i }))
 
     // Select OpenRouter provider
-    const providerSelect = screen.getByLabelText(/Provider/i)
+    const providerSelect = screen.getByRole('combobox', { name: /provider/i })
     await user.click(providerSelect)
-    await user.click(screen.getByText(/OpenRouter/i))
+    await user.click(screen.getByRole('option', { name: /OpenRouter/i }))
 
     // Update prompt
     const promptTextarea = screen.getByLabelText(/Prompt/i)
