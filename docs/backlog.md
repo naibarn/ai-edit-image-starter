@@ -51,7 +51,7 @@
 ### Epic H — Logging & Error Handling
 | ID | Title                         | MoSCoW | Priority | SP | EstHrs | Owner | Status  | Deps | TestId | TestFiles                               | TestStatus |
 |----|-------------------------------|--------|----------|----|--------|-------|---------|------|--------|-----------------------------------------|------------|
-| H1 | Server Logging Baseline       | M      | P1       | 2  | 4      | BE    | Completed | B2-OR| T-H1   | backend/tests/test_logging_server.py    | Passed |
+| H1 | Server Logging Baseline       | M      | P1       | 2  | 4      | BE    | Done      | B2-OR| T-H1   | backend/tests/test_logging_server.py    | Passed |
 | H2 | Client → Server Logs Endpoint | S      | P2       | 1  | 2      | FE    | Planned | E3   | T-H2   | backend/tests/test_logging_client.py    | NotStarted |
 
 **Unit Test Spec**
@@ -64,9 +64,9 @@
 ### Epic E — Frontend UI (Next.js + shadcn/ui + sonner)
 | ID | Title                 | MoSCoW | Priority | SP | EstHrs | Owner | Status     | Deps | TestId | TestFiles                                              | TestStatus |
 |----|-----------------------|--------|----------|----|--------|-------|------------|------|--------|--------------------------------------------------------|------------|
-| E1 | Form & Uploads        | M      | P1       | 5  | 12     | FE    | Planned    | A2,B2-OR | T-E1 | frontend/tests/edit-form.test.tsx                     | NotStarted |
-| E2 | Presets/Controls      | M      | P1       | 2  | 6      | FE    | Planned    | E1   | T-E2   | frontend/tests/presets-controls.test.tsx              | NotStarted |
-| E3 | UX Feedback & Gallery | M      | P1       | 2  | 6      | FE    | Planned    | E1   | T-E3   | frontend/tests/ux-feedback-gallery.test.tsx           | NotStarted |
+| E1 | Form & Uploads        | M      | P1       | 5  | 12     | FE    | Done       | A2,B2-OR | T-E1 | frontend/tests/edit-form.test.tsx                     | Passed     |
+| E2 | Presets/Controls      | M      | P1       | 2  | 6      | FE    | Done       | E1   | T-E2   | frontend/tests/presets-controls.test.tsx              | Passed     |
+| E3 | UX Feedback & Gallery | M      | P1       | 2  | 6      | FE    | Done       | E1   | T-E3   | frontend/tests/ux-feedback-gallery.test.tsx           | Passed     |
 
 **Unit Test Spec (Vitest + Testing Library)**
 - **T-E1**: 
@@ -91,13 +91,14 @@
 ### Epic D — Queue (SQLite + Workers)
 | ID | Title          | MoSCoW | Priority | SP | EstHrs | Owner | Status  | Deps     | TestId | TestFiles                                          | TestStatus |
 |----|----------------|--------|----------|----|--------|-------|---------|----------|--------|----------------------------------------------------|------------|
-| D1 | Job APIs       | S      | P2       | 3  | 10     | BE    | Planned | B2-OR,H1 | T-D1   | backend/tests/test_jobs_api.py                     | NotStarted |
-| D2 | Worker Threads | S      | P2       | 3  | 10     | BE    | Planned | D1       | T-D2   | backend/tests/test_workers.py                      | NotStarted |
+| D1 | Job APIs       | S      | P2       | 3  | 10     | BE    | Done    | B2-OR,H1 | T-D1   | backend/tests/test_jobs_api.py                     | Passed     |
+| D2 | Worker Threads | S      | P2       | 3  | 10     | BE    | Done    | D1       | T-D2   | backend/tests/test_workers.py                      | Passed     |
 | E4 | FE Queue Flow  | S      | P2       | 2  | 6      | FE    | Planned | D1,D2    | T-E4   | frontend/tests/fe-queue-flow.test.tsx              | NotStarted |
 
 **Unit Test Spec**
 - **T-D1**: `POST /jobs/submit` สร้าง job สถานะ `queued`, `GET /jobs/{id}` แสดงสถานะ, ตรวจ schema ของ `result`
 - **T-D2**: worker เปลี่ยนสถานะ `queued→running→done/error`, รองรับหลายงาน (mock provider ให้เร็ว)
+  - Note: Worker มี stop_event/lock ครบ, ใช้ app.state แทน global variables, จัดการ Exception และ queue.Empty
 - **T-E4**: toggle `useQueue` → submit → โพลสถานะจน `done` แล้วแสดงภาพ
 
 ---
