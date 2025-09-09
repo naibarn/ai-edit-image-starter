@@ -284,3 +284,32 @@ fastapi.exceptions.HTTPException: 500: OpenRouter API error:
 2025-09-09 22:43:08,216 - app - ERROR - job ac1cfccf-f203-477e-89e5-e63cbae01725 failed: Test error
 2025-09-09 22:43:33,844 - app - ERROR - job e094978f-548a-493e-acaf-eadc6cbf3e96 failed: Provider error
 2025-09-09 22:43:34,797 - app - ERROR - job f391ad42-959e-4b8b-a09d-4d49989f3566 failed: Simulated error
+2025-09-09 22:59:53,163 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 298, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 163, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-09 22:59:54,479 - app - ERROR - job 1a70055c-883d-43be-8b9a-e454d9429eb4 failed: Provider error
+2025-09-09 22:59:55,950 - app - ERROR - job 4ad3a073-b983-41c8-a44d-4b99cceb3578 failed: Test error
+2025-09-09 23:00:18,142 - app - ERROR - job 0586c1cb-ec46-42f6-925e-cda7adbdd0df failed: Provider error
+2025-09-09 23:00:19,089 - app - ERROR - job 31db7f11-de98-487d-b4f7-b60712830be7 failed: Simulated error
+2025-09-10 01:01:56,806 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 293, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 01:01:57,581 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 299, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 164, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-10 01:01:58,885 - app - ERROR - job 0b1c7f97-c946-4b1e-b08b-130dd95646f2 failed: Provider error
+2025-09-10 01:02:00,330 - app - ERROR - job 2322b05f-2957-4132-8568-c2d05801d0c2 failed: Test error
+2025-09-10 01:02:20,684 - app - ERROR - job b26a60b2-a4da-47df-86c8-c0b01590225e failed: Provider error
+2025-09-10 01:02:21,633 - app - ERROR - job 89ba020a-7483-4ea2-a9a6-eb3b2c98a7c0 failed: Simulated error

@@ -43,7 +43,7 @@ def test_client_logging_endpoint_receives_json(client):
         with open(temp_log_path, "r") as f:
             log_content = f.read()
             assert "CLIENT_LOG" in log_content
-            assert "Test client error" in log_content
+            assert '"message": "Test client error"' in log_content
             assert "Error stack trace" in log_content
             assert "/test" in log_content
 
@@ -143,8 +143,8 @@ def test_client_logging_endpoint_handles_invalid_json(client):
         with open(temp_log_path, "r") as f:
             log_content = f.read()
             assert "CLIENT_LOG" in log_content
-            # Should log empty dict for invalid JSON
-            assert "{}" in log_content
+            # Should log the invalid data
+            assert "invalid json" in log_content
 
     finally:
         # Restore original handlers

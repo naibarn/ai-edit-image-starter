@@ -16,6 +16,7 @@ from storage_static import (
     list_images as list_images_static,
     save_base64_image as save_base64_image_static,
 )
+from provider.gemini_direct import call_gemini_direct_api
 
 
 @asynccontextmanager
@@ -288,14 +289,16 @@ async def images_generate(
             raise HTTPException(status_code=422, detail="prompt is required")
 
         provider = (provider or os.getenv("PROVIDER", "openrouter")).lower()
-        if provider not in ["openrouter", "gemini"]:
+        if provider not in ["openrouter", "gemini", "gemini-direct"]:
             raise HTTPException(
-                status_code=400, detail="Invalid provider. Use 'openrouter' or 'gemini'"
+                status_code=400, detail="Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'"
             )
 
         # Call the API (mocked in tests)
         if provider == "openrouter":
             api_response = call_openrouter_api(prompt, width, height, n)
+        elif provider == "gemini-direct":
+            api_response = call_gemini_direct_api(prompt, width, height, n)
         else:
             api_response = call_gemini(prompt, width, height, n)
 
@@ -361,14 +364,16 @@ async def images_edit(
             raise HTTPException(status_code=422, detail="prompt is required")
 
         provider = (provider or os.getenv("PROVIDER", "openrouter")).lower()
-        if provider not in ["openrouter", "gemini"]:
+        if provider not in ["openrouter", "gemini", "gemini-direct"]:
             raise HTTPException(
-                status_code=400, detail="Invalid provider. Use 'openrouter' or 'gemini'"
+                status_code=400, detail="Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'"
             )
 
         # Call the API (mocked in tests)
         if provider == "openrouter":
             api_response = call_openrouter_api(prompt, width, height, n)
+        elif provider == "gemini-direct":
+            api_response = call_gemini_direct_api(prompt, width, height, n)
         else:
             api_response = call_gemini(prompt, width, height, n)
 
@@ -485,10 +490,10 @@ class Worker:
             except Empty:
                 continue
             # ให้เวลาทดสอบได้เห็นสถานะ "queued" ก่อนเปลี่ยนเป็น running
-            delay = getattr(self.app.state, "worker_claim_delay", 0.4)
+            delay = getattr(self.app.state, "worker_claim_delay", 0.1)
             if delay and delay > 0:
                 import time
-
+        
                 time.sleep(delay)
             self.app.state.job_status[job_id] = "running"
             _process_job(self.app, job_id)

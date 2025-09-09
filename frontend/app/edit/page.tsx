@@ -63,8 +63,13 @@ export default function EditPage() {
   });
 
   async function refresh() {
-    const res = await fetch(`${API}/images`, { cache: "no-store" });
-    setItems(await res.json());
+    try {
+      const res = await fetch(`${API}/images`, { cache: "no-store" });
+      const data = await res.json();
+      setItems(Array.isArray(data) ? data : []);
+    } catch (e) {
+      setItems([]);
+    }
   }
   useEffect(() => {
     refresh();

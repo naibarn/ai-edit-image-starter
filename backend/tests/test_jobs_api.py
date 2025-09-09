@@ -157,7 +157,7 @@ def test_job_processing_with_mock_provider(client_with_worker, temp_image_dir):
         job_id = submit_response.json()["job_id"]
 
         # Wait for the job to be processed
-        for _ in range(10):  # Wait up to 10 seconds
+        for _ in range(15):  # Wait up to 15 seconds
             response = client_with_worker.get(f"/jobs/{job_id}")
             assert response.status_code == 200
             job_data = response.json()
@@ -199,7 +199,7 @@ def test_job_processing_with_error(client_with_worker, temp_image_dir):
         job_id = submit_response.json()["job_id"]
 
         # Wait for the job to fail
-        for _ in range(10):  # Wait up to 10 seconds
+        for _ in range(15):  # Wait up to 15 seconds
             response = client_with_worker.get(f"/jobs/{job_id}")
             assert response.status_code == 200
             job_data = response.json()

@@ -52,7 +52,7 @@
 | ID | Title                         | MoSCoW | Priority | SP | EstHrs | Owner | Status  | Deps | TestId | TestFiles                               | TestStatus |
 |----|-------------------------------|--------|----------|----|--------|-------|---------|------|--------|-----------------------------------------|------------|
 | H1 | Server Logging Baseline       | M      | P1       | 2  | 4      | BE    | Done      | B2-OR| T-H1   | backend/tests/test_logging_server.py    | Passed |
-| H2 | Client → Server Logs Endpoint | S      | P2       | 1  | 2      | FE    | Planned | E3   | T-H2   | backend/tests/test_logging_client.py    | NotStarted |
+| H2 | Client → Server Logs Endpoint | S      | P2       | 1  | 2      | FE    | Done | E3   | T-H2   | backend/tests/test_logging_client.py    | Passed |
 
 **Unit Test Spec**
 - **T-H1**: เมื่อเกิด exception ใน handler → มีบรรทัด `TRACEBACK` ใน `logs/app.log` (mock logger หรืออ่านไฟล์ชั่วคราว)
@@ -81,7 +81,7 @@
 ### Epic F — Frontend‑only Mode
 | ID | Title                    | MoSCoW | Priority | SP | EstHrs | Owner | Status  | Deps | TestId | TestFiles                                | TestStatus |
 |----|--------------------------|--------|----------|----|--------|-------|---------|------|--------|------------------------------------------|------------|
-| F1 | FE-only Config & Scripts | S      | P2       | 2  | 6      | FE    | Planned | A2,B2-OR | T-F1 | frontend/tests/fe-only-config.test.ts   | NotStarted |
+| F1 | FE-only Config & Scripts | S      | P2       | 2  | 6      | FE    | Done | A2,B2-OR | T-F1 | frontend/tests/fe-only-config.test.ts   | Passed |
 
 **Unit Test Spec**
 - **T-F1**: อ่านค่า `NEXT_PUBLIC_API_BASE` จาก `.env.local` แล้วเรียก API ไปยัง URL ดังกล่าว (mock fetch) + สคริปต์ FE-only สร้างโฟลเดอร์ `public/output`
@@ -93,7 +93,7 @@
 |----|----------------|--------|----------|----|--------|-------|---------|----------|--------|----------------------------------------------------|------------|
 | D1 | Job APIs       | S      | P2       | 3  | 10     | BE    | Done    | B2-OR,H1 | T-D1   | backend/tests/test_jobs_api.py                     | Passed     |
 | D2 | Worker Threads | S      | P2       | 3  | 10     | BE    | Done    | D1       | T-D2   | backend/tests/test_workers.py                      | Passed     |
-| E4 | FE Queue Flow  | S      | P2       | 2  | 6      | FE    | Planned | D1,D2    | T-E4   | frontend/tests/fe-queue-flow.test.tsx              | NotStarted |
+| E4 | FE Queue Flow  | S      | P2       | 2  | 6      | FE    | Done | D1,D2    | T-E4   | frontend/tests/fe-queue-flow.test.tsx              | Passed |
 
 **Unit Test Spec**
 - **T-D1**: `POST /jobs/submit` สร้าง job สถานะ `queued`, `GET /jobs/{id}` แสดงสถานะ, ตรวจ schema ของ `result`
@@ -106,7 +106,7 @@
 ### Epic C — Gemini‑direct Adapter (Optional)
 | ID | Title                 | MoSCoW | Priority | SP | EstHrs | Owner | Status  | Deps  | TestId | TestFiles                                   | TestStatus |
 |----|-----------------------|--------|----------|----|--------|-------|---------|-------|--------|---------------------------------------------|------------|
-| C2 | Gemini Direct Adapter | C      | P3       | 5  | 12     | BE    | Planned | B2-OR | T-C2   | backend/tests/test_gemini_adapter.py        | NotStarted |
+| C2 | Gemini Direct Adapter | C      | P3       | 5  | 12     | BE    | Done | B2-OR | T-C2   | backend/tests/test_gemini_adapter.py        | Passed |
 
 **Unit Test Spec**
 - **T-C2**: mock response ของ Gemini → parser ดึง data URL ถูกต้อง, error-handling เมื่อไม่มีภาพ/โควต้าไม่พอ
@@ -116,8 +116,8 @@
 ### Epic J — Testing & Quality
 | ID | Title                      | MoSCoW | Priority | SP | EstHrs | Owner | Status  | Deps   | TestId | TestFiles                       | TestStatus |
 |----|----------------------------|--------|----------|----|--------|-------|---------|--------|--------|---------------------------------|------------|
-| J1 | Unit Tests Infra (BE/FE)   | S      | P2       | 3  | 8      | QA    | Planned | A2     | T-J1   | backend/tests/conftest.py, frontend/vitest.config.ts | NotStarted |
-| J2 | E2E Smoke (happy paths)    | S      | P2       | 3  | 10     | QA    | Planned | E3,B2-OR| T-J2  | e2e/smoke/*.spec.(ts|py)        | NotStarted |
+| J1 | Unit Tests Infra (BE/FE)   | S      | P2       | 3  | 8      | QA    | Done | A2     | T-J1   | backend/tests/conftest.py, frontend/vitest.config.ts | Passed |
+| J2 | E2E Smoke (happy paths)    | S      | P2       | 3  | 10     | QA    | Done | E3,B2-OR| T-J2  | e2e/smoke/basic.spec.ts        | Passed |
 
 **Unit Test Spec**
 - **T-J1**: ติดตั้ง **pytest** ฝั่ง BE และ **Vitest + Testing Library** ฝั่ง FE, รันผ่าน CI script ได้  
