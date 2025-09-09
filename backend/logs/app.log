@@ -246,3 +246,29 @@ Traceback (most recent call last):
 fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
 2025-09-08 21:38:57,536 - app - ERROR - job 5a726154-ddec-4eca-b196-2daa452c5984 failed: Provider error
 2025-09-08 21:38:58,511 - app - ERROR - job 27ea3b57-c8f9-4a1b-801e-2ef301ce4f6e failed: Provider error
+2025-09-08 22:04:45,129 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 298, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 163, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 22:05:36,053 - app - ERROR - job 9272910d-b805-4c04-bfa3-563bbe1684d1 failed: Provider error
+2025-09-08 22:05:37,454 - app - ERROR - job 19625696-9b1b-42f8-9804-9a1ad3e51e4b failed: Provider error
+2025-09-09 21:32:11,027 - app - ERROR - job d43f9148-7b6a-4f4e-a660-c11c69db6162 failed: Provider error
+2025-09-09 21:32:41,216 - app - ERROR - job c5bf5538-0026-470b-bca0-719fc65c57f8 failed: Provider error
+2025-09-09 21:32:54,952 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 298, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 163, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-09 21:32:56,632 - app - ERROR - job e2b55916-ff7d-443f-a477-46c6c4b04be6 failed: Provider error
+2025-09-09 21:32:59,297 - app - ERROR - job c11ec87e-279c-4ee8-b325-029ba8c5a75a failed: Test error
+2025-09-09 21:33:21,565 - app - ERROR - job 6863b1f3-04f8-4640-a5f0-4bba1f382329 failed: Provider error
+2025-09-09 21:33:23,123 - app - ERROR - job df7becf7-579c-468c-a887-a7e514a30b60 failed: Simulated error
+2025-09-09 21:33:58,109 - app - ERROR - job 9a3435d4-a089-420a-88aa-424734d0f68f failed: Provider error
+2025-09-09 21:34:00,376 - app - ERROR - job cb3247e4-fc60-4503-831f-a5bdb495bec8 failed: Test error

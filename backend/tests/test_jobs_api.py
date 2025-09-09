@@ -117,7 +117,7 @@ def test_get_nonexistent_job(client):
 # Removed test_list_jobs as there's no GET /jobs endpoint
 
 
-def test_job_processing_with_mock_provider(client, temp_image_dir):
+def test_job_processing_with_mock_provider(client_with_worker, temp_image_dir):
     """Test that jobs are processed correctly with mocked provider"""
     # Mock the provider response
     mock_response = MagicMock()
@@ -140,7 +140,7 @@ def test_job_processing_with_mock_provider(client, temp_image_dir):
 
     with patch("requests.post", return_value=mock_response):
         # Submit a job
-        submit_response = client.post(
+        submit_response = client_with_worker.post(
             "/jobs/submit",
             json={
                 "payload": {
@@ -158,7 +158,7 @@ def test_job_processing_with_mock_provider(client, temp_image_dir):
 
         # Wait for the job to be processed
         for _ in range(10):  # Wait up to 10 seconds
-            response = client.get(f"/jobs/{job_id}")
+            response = client_with_worker.get(f"/jobs/{job_id}")
             assert response.status_code == 200
             job_data = response.json()
 
@@ -177,12 +177,12 @@ def test_job_processing_with_mock_provider(client, temp_image_dir):
         assert isinstance(job_data["result"], dict)
 
 
-def test_job_processing_with_error(client, temp_image_dir):
+def test_job_processing_with_error(client_with_worker, temp_image_dir):
     """Test that job errors are handled correctly"""
     # Mock the provider to raise an exception
     with patch("requests.post", side_effect=Exception("Provider error")):
         # Submit a job
-        submit_response = client.post(
+        submit_response = client_with_worker.post(
             "/jobs/submit",
             json={
                 "payload": {
@@ -200,7 +200,7 @@ def test_job_processing_with_error(client, temp_image_dir):
 
         # Wait for the job to fail
         for _ in range(10):  # Wait up to 10 seconds
-            response = client.get(f"/jobs/{job_id}")
+            response = client_with_worker.get(f"/jobs/{job_id}")
             assert response.status_code == 200
             job_data = response.json()
 
@@ -245,24 +245,29 @@ def test_get_nonexistent_job_404(client):
 
 def test_worker_happy_path(client_with_worker):
     """Test worker processes job successfully"""
-    submit_response = client_with_worker.post(
-        "/jobs/submit", json={"payload": {"test": "data"}}
-    )
-    assert submit_response.status_code == 200
-    job_id = submit_response.json()["job_id"]
+    mock_response = MagicMock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {"dummy": "success"}
 
-    # Wait for completion
-    for _ in range(5):
-        response = client_with_worker.get(f"/jobs/{job_id}")
-        if response.json()["status"] == "done":
-            break
-        time.sleep(0.1)
-    else:
-        pytest.fail("Job not done")
+    with patch("requests.post", return_value=mock_response):
+        submit_response = client_with_worker.post(
+            "/jobs/submit", json={"payload": {"test": "data"}}
+        )
+        assert submit_response.status_code == 200
+        job_id = submit_response.json()["job_id"]
 
-    data = response.json()
-    assert data["status"] == "done"
-    assert data["result"] is not None
+        # Wait for completion
+        for _ in range(5):
+            response = client_with_worker.get(f"/jobs/{job_id}")
+            if response.json()["status"] == "done":
+                break
+            time.sleep(0.1)
+        else:
+            pytest.fail("Job not done")
+
+        data = response.json()
+        assert data["status"] == "done"
+        assert data["result"] is not None
 
 
 def test_worker_error_path(client_with_worker):

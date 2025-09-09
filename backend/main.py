@@ -72,12 +72,12 @@ def current_status(job_id: str) -> str:
 
 
 def _log_client_message(data):
-    if data:
+    if isinstance(data, dict):
         logger.info(f"CLIENT_LOG {data}")
         if data == {}:
             logger.info("Malformed client error log")
     else:
-        logger.info("CLIENT_LOG {}")
+        logger.info(f"CLIENT_LOG {data}")
 
 
 class JobResp(BaseModel):
@@ -344,6 +344,7 @@ async def images_edit(
     base: Optional[UploadFile] = File(None),
     mask: Optional[UploadFile] = File(None),
     refs: Optional[List[UploadFile]] = File(None),
+    body: dict | None = Body(None),
 ):
     if not base:
         raise HTTPException(status_code=422, detail="base image is required")
@@ -405,9 +406,11 @@ async def logs_client(request: Request):
         try:
             data = await request.json()
         except Exception:
-            data = None
+            data = await request.body()
+            data = data.decode() if isinstance(data, bytes) else str(data)
     else:
-        data = None
+        data = await request.body()
+        data = data.decode() if isinstance(data, bytes) else str(data)
     try:
         _log_client_message(data)
     finally:
@@ -455,10 +458,10 @@ def _process_job(app, job_id):
     # Mock processing
     # Simulate failure by calling API (mocked in test)
     try:
-        # Add a delay to allow tests to see "queued" state
+        # Add a small delay to allow tests to see "running" state
         import time
 
-        time.sleep(2)
+        time.sleep(0.1)
         requests.post("https://dummy.com")
         app.state.job_result[job_id] = {"message": "Job completed successfully"}
         app.state.job_status[job_id] = "done"
@@ -467,6 +470,7 @@ def _process_job(app, job_id):
         logger.error(f"job {job_id} failed: {str(e)}")
         app.state.job_result[job_id] = str(e)
         app.state.job_status[job_id] = "error"
+        app.state.job_error[job_id] = str(e)
         # raise  # Don't raise to allow tests to check the error
 
 
@@ -486,11 +490,6 @@ class Worker:
                 import time
 
                 time.sleep(delay)
-            try:
-                self.app.state.job_status[job_id] = "running"
-                result = _process_job(self.app, job_id)
-                self.app.state.job_result[job_id] = result
-                self.app.state.job_status[job_id] = "done"
-            except Exception as e:
-                self.app.state.job_error[job_id] = str(e)
-                self.app.state.job_status[job_id] = "error"
+            self.app.state.job_status[job_id] = "running"
+            _process_job(self.app, job_id)
+            # _process_job already sets status, result, and error

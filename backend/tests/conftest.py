@@ -22,6 +22,7 @@ def client():
     app.state.job_error = {}
     app.state.lock = threading.Lock()
     app.state.stop_event = threading.Event()
+    app.state.worker_claim_delay = 0.1  # Small delay for tests
     return TestClient(app)
 
 
