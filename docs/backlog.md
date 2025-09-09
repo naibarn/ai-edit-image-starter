@@ -98,6 +98,7 @@
 **Unit Test Spec**
 - **T-D1**: `POST /jobs/submit` สร้าง job สถานะ `queued`, `GET /jobs/{id}` แสดงสถานะ, ตรวจ schema ของ `result`
 - **T-D2**: worker เปลี่ยนสถานะ `queued→running→done/error`, รองรับหลายงาน (mock provider ให้เร็ว)
+  - Note: Worker มี stop_event/lock ครบ, ใช้ app.state แทน global variables, จัดการ Exception และ queue.Empty
 - **T-E4**: toggle `useQueue` → submit → โพลสถานะจน `done` แล้วแสดงภาพ
 
 ---
