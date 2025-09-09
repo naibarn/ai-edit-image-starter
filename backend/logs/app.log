@@ -313,3 +313,23 @@ fastapi.exceptions.HTTPException: 500: OpenRouter API error:
 2025-09-10 01:02:00,330 - app - ERROR - job 2322b05f-2957-4132-8568-c2d05801d0c2 failed: Test error
 2025-09-10 01:02:20,684 - app - ERROR - job b26a60b2-a4da-47df-86c8-c0b01590225e failed: Provider error
 2025-09-10 01:02:21,633 - app - ERROR - job 89ba020a-7483-4ea2-a9a6-eb3b2c98a7c0 failed: Simulated error
+2025-09-10 02:03:19,186 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 293, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 02:04:59,364 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 293, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 02:05:44,333 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 293, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 02:05:54,803 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 293, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
