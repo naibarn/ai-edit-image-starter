@@ -53,8 +53,11 @@ class TestGeminiDirectAdapter:
         """Test handling of quota exceeded error"""
         # Ensure we're not in test mode
         original_test = os.environ.get('PYTEST_CURRENT_TEST')
+        original_ci = os.environ.get('CI')
         if 'PYTEST_CURRENT_TEST' in os.environ:
             del os.environ['PYTEST_CURRENT_TEST']
+        if 'CI' in os.environ:
+            del os.environ['CI']
 
         try:
             with patch('requests.post') as mock_post:
@@ -67,13 +70,18 @@ class TestGeminiDirectAdapter:
         finally:
             if original_test:
                 os.environ['PYTEST_CURRENT_TEST'] = original_test
+            if original_ci:
+                os.environ['CI'] = original_ci
 
     def test_call_gemini_direct_api_invalid_api_key(self):
         """Test handling of invalid API key error"""
         # Ensure we're not in test mode
         original_test = os.environ.get('PYTEST_CURRENT_TEST')
+        original_ci = os.environ.get('CI')
         if 'PYTEST_CURRENT_TEST' in os.environ:
             del os.environ['PYTEST_CURRENT_TEST']
+        if 'CI' in os.environ:
+            del os.environ['CI']
 
         try:
             with patch('requests.post') as mock_post:
@@ -86,13 +94,18 @@ class TestGeminiDirectAdapter:
         finally:
             if original_test:
                 os.environ['PYTEST_CURRENT_TEST'] = original_test
+            if original_ci:
+                os.environ['CI'] = original_ci
 
     def test_call_gemini_direct_api_invalid_request(self):
         """Test handling of invalid request error"""
         # Ensure we're not in test mode
         original_test = os.environ.get('PYTEST_CURRENT_TEST')
+        original_ci = os.environ.get('CI')
         if 'PYTEST_CURRENT_TEST' in os.environ:
             del os.environ['PYTEST_CURRENT_TEST']
+        if 'CI' in os.environ:
+            del os.environ['CI']
 
         try:
             with patch('requests.post') as mock_post:
@@ -105,13 +118,18 @@ class TestGeminiDirectAdapter:
         finally:
             if original_test:
                 os.environ['PYTEST_CURRENT_TEST'] = original_test
+            if original_ci:
+                os.environ['CI'] = original_ci
 
     def test_call_gemini_direct_api_timeout(self):
         """Test handling of timeout error"""
         # Ensure we're not in test mode
         original_test = os.environ.get('PYTEST_CURRENT_TEST')
+        original_ci = os.environ.get('CI')
         if 'PYTEST_CURRENT_TEST' in os.environ:
             del os.environ['PYTEST_CURRENT_TEST']
+        if 'CI' in os.environ:
+            del os.environ['CI']
 
         try:
             with patch('requests.post') as mock_post:
@@ -124,13 +142,18 @@ class TestGeminiDirectAdapter:
         finally:
             if original_test:
                 os.environ['PYTEST_CURRENT_TEST'] = original_test
+            if original_ci:
+                os.environ['CI'] = original_ci
 
     def test_call_gemini_direct_api_connection_error(self):
         """Test handling of connection error"""
         # Ensure we're not in test mode
         original_test = os.environ.get('PYTEST_CURRENT_TEST')
+        original_ci = os.environ.get('CI')
         if 'PYTEST_CURRENT_TEST' in os.environ:
             del os.environ['PYTEST_CURRENT_TEST']
+        if 'CI' in os.environ:
+            del os.environ['CI']
 
         try:
             with patch('requests.post') as mock_post:
@@ -144,6 +167,8 @@ class TestGeminiDirectAdapter:
         finally:
             if original_test:
                 os.environ['PYTEST_CURRENT_TEST'] = original_test
+            if original_ci:
+                os.environ['CI'] = original_ci
 
     def test_call_gemini_direct_api_missing_api_key(self):
         """Test handling when API key is not configured"""

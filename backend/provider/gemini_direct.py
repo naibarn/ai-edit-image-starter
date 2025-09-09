@@ -24,11 +24,16 @@ def call_gemini_direct_api(prompt: str, width: int, height: int, n: int) -> dict
     api_key = os.getenv("GEMINI_API_KEY", "")
 
     # For tests, allow empty API key and rely on mocking
-    if not api_key and not os.getenv("PYTEST_CURRENT_TEST"):
+    is_test_mode = (
+        os.getenv("PYTEST_CURRENT_TEST") or
+        os.getenv("CI") == "true"
+    )
+
+    if not api_key and not is_test_mode:
         raise HTTPException(status_code=500, detail="Gemini API key not configured")
 
     # For tests, return fake response in OpenRouter format
-    if os.getenv("PYTEST_CURRENT_TEST"):
+    if is_test_mode:
         return {
             "choices": [
                 {

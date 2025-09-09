@@ -381,7 +381,7 @@ export default function EditPage() {
                   <Label htmlFor="useQueue">Use Queue</Label>
                 </div>
                 <div className="space-y-2 w-40">
-                  {progress > 0 && <Progress value={progress} />}
+                  <Progress value={progress} />
                 </div>
               </div>
 
@@ -399,13 +399,15 @@ export default function EditPage() {
         {items.map((it) => (
           <figure key={it.filename} className="border rounded-2xl p-3 shadow-sm">
             <div className="relative w-full aspect-square">
-              <Image src={`${API}${it.url}`} alt={it.filename} fill sizes="33vw" style={{ objectFit: "cover" }} />
+              <Image src={`${API}${it.url}`} alt="Generated image" fill sizes="33vw" style={{ objectFit: "cover" }} />
             </div>
             <div className="mt-2 text-sm flex items-center justify-between">
               <span className="text-muted-foreground">{(it.size_bytes / 1024).toFixed(1)} KB</span>
-              <a className="underline" href={`${API}${it.url}`} download>
-                Download
-              </a>
+              <Button asChild variant="link" className="p-0 h-auto">
+                <a href={`${API}${it.url}`} download>
+                  Download
+                </a>
+              </Button>
             </div>
           </figure>
         ))}

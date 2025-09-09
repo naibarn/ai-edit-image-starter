@@ -27,3 +27,13 @@ export default defineConfig({
     ],
   },
 })
+/** Test polyfills (Radix/UI) */
+if (!(globalThis as any).Element?.prototype.hasPointerCapture) {
+  (globalThis as any).Element.prototype.hasPointerCapture = () => {};
+}
+if (!(globalThis as any).window?.scrollIntoView) {
+  (globalThis as any).window.scrollIntoView = () => {};
+}
+if (!(globalThis as any).Element?.prototype.getBoundingClientRect) {
+  (globalThis as any).Element.prototype.getBoundingClientRect = () => ({x:0,y:0,width:100,height:20,top:0,left:0,bottom:20,right:100,toJSON(){return{}}});
+}

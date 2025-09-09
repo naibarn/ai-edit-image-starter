@@ -22,7 +22,7 @@ def test_client_logging_endpoint_receives_json(client):
     # Add our test handler
     test_handler = logging.FileHandler(temp_log_path)
     test_handler.setFormatter(
-        logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
+        logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     )
     original_logger.addHandler(test_handler)
 
@@ -48,6 +48,8 @@ def test_client_logging_endpoint_receives_json(client):
             assert "/test" in log_content
 
     finally:
+        # Close the test handler to release the file
+        test_handler.close()
         # Restore original handlers
         for handler in original_logger.handlers[:]:
             original_logger.removeHandler(handler)
@@ -78,7 +80,7 @@ def test_client_logging_endpoint_handles_empty_data(client):
     # Add our test handler
     test_handler = logging.FileHandler(temp_log_path)
     test_handler.setFormatter(
-        logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
+        logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     )
     original_logger.addHandler(test_handler)
 
@@ -95,6 +97,8 @@ def test_client_logging_endpoint_handles_empty_data(client):
             assert "{}" in log_content
 
     finally:
+        # Close the test handler to release the file
+        test_handler.close()
         # Restore original handlers
         for handler in original_logger.handlers[:]:
             original_logger.removeHandler(handler)
@@ -125,7 +129,7 @@ def test_client_logging_endpoint_handles_invalid_json(client):
     # Add our test handler
     test_handler = logging.FileHandler(temp_log_path)
     test_handler.setFormatter(
-        logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
+        logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     )
     original_logger.addHandler(test_handler)
 
@@ -147,6 +151,8 @@ def test_client_logging_endpoint_handles_invalid_json(client):
             assert "invalid json" in log_content
 
     finally:
+        # Close the test handler to release the file
+        test_handler.close()
         # Restore original handlers
         for handler in original_logger.handlers[:]:
             original_logger.removeHandler(handler)
@@ -177,7 +183,7 @@ def test_client_logging_endpoint_handles_large_data(client):
     # Add our test handler
     test_handler = logging.FileHandler(temp_log_path)
     test_handler.setFormatter(
-        logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
+        logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     )
     original_logger.addHandler(test_handler)
 
@@ -207,6 +213,8 @@ def test_client_logging_endpoint_handles_large_data(client):
             assert "/test/large" in log_content
 
     finally:
+        # Close the test handler to release the file
+        test_handler.close()
         # Restore original handlers
         for handler in original_logger.handlers[:]:
             original_logger.removeHandler(handler)
@@ -237,7 +245,7 @@ def test_client_logging_endpoint_without_content_type(client):
     # Add our test handler
     test_handler = logging.FileHandler(temp_log_path)
     test_handler.setFormatter(
-        logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
+        logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     )
     original_logger.addHandler(test_handler)
 
@@ -260,6 +268,8 @@ def test_client_logging_endpoint_without_content_type(client):
             assert "{}" in log_content
 
     finally:
+        # Close the test handler to release the file
+        test_handler.close()
         # Restore original handlers
         for handler in original_logger.handlers[:]:
             original_logger.removeHandler(handler)

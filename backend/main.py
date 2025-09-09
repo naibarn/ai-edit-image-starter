@@ -1,4 +1,6 @@
 import logging
+import time
+import traceback
 
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Body, Request
 from fastapi.responses import FileResponse, JSONResponse
@@ -404,22 +406,17 @@ async def images_edit(
 
 
 @app.post("/logs/client")
-async def logs_client(request: Request):
-    # เทสต์คาดหวัง 200 + {"ok": True} แม้ content-type/เนื้อหาผิด
-    content_type = request.headers.get("content-type", "")
-    if "application/json" in content_type.lower():
-        try:
-            data = await request.json()
-        except Exception:
-            data = await request.body()
-            data = data.decode() if isinstance(data, bytes) else str(data)
-    else:
-        data = await request.body()
-        data = data.decode() if isinstance(data, bytes) else str(data)
+async def client_logs(request: Request) -> dict[str, Any]:
+    # Always succeed and be tolerant to content-type (KB: H2)
     try:
-        _log_client_message(data)
-    finally:
-        return {"ok": True}
+        # ensure logs dir exists
+        Path("backend/logs").mkdir(parents=True, exist_ok=True)
+        ct = (request.headers.get("content-type") or "").lower()
+        payload = await (request.json() if ct.startswith("application/json") else request.body())
+        logger.info("client_log %s", payload)
+    except Exception as exc:
+        logger.warning("client_log_parse_error %s", exc)
+    return {"ok": True}
 
 
 class JobCreate(BaseModel):
@@ -433,19 +430,16 @@ async def jobs_submit(payload: dict = Body(...)):
     return {"job_id": job_id, "id": job_id, "status": "queued"}
 
 
-@app.get("/jobs/{job_id}")
-async def get_job(job_id: str):
-    status = current_status(job_id)
-    if status == "unknown":
-        raise HTTPException(status_code=404, detail="Job not found")
-    result = app.state.job_result.get(job_id)
-    error = app.state.job_error.get(job_id)
+@app.get("/jobs/{id}")
+async def get_job(id: str):
+    if id not in app.state.job_status:
+        raise HTTPException(status_code=404, detail="job not found")
     return {
-        "job_id": job_id,
-        "id": job_id,
-        "status": status,
-        "result": result,
-        "error": error,
+        "job_id": id,
+        "id": id,
+        "status": app.state.job_status.get(id),
+        "result": app.state.job_result.get(id, None),
+        "error": app.state.job_error.get(id, None),
     }
 
 
@@ -464,18 +458,14 @@ def _process_job(app, job_id):
     # Simulate failure by calling API (mocked in test)
     try:
         # Add a small delay to allow tests to see "running" state
-        import time
-
         time.sleep(0.1)
         requests.post("https://dummy.com")
         app.state.job_result[job_id] = {"message": "Job completed successfully"}
         app.state.job_status[job_id] = "done"
-        app.state.job_error[job_id] = None
     except Exception as e:
         logger.error(f"job {job_id} failed: {str(e)}")
         app.state.job_result[job_id] = str(e)
         app.state.job_status[job_id] = "error"
-        app.state.job_error[job_id] = str(e)
         # raise  # Don't raise to allow tests to check the error
 
 
@@ -487,14 +477,18 @@ class Worker:
         while not self.app.state.stop_event.is_set():
             try:
                 job_id = self.app.state.job_queue.get(timeout=0.2)
-            except Empty:
+            except Exception:
                 continue
-            # ให้เวลาทดสอบได้เห็นสถานะ "queued" ก่อนเปลี่ยนเป็น running
-            delay = getattr(self.app.state, "worker_claim_delay", 0.1)
-            if delay and delay > 0:
-                import time
-        
-                time.sleep(delay)
-            self.app.state.job_status[job_id] = "running"
-            _process_job(self.app, job_id)
-            # _process_job already sets status, result, and error
+            with self.app.state.lock:
+                self.app.state.job_status[job_id] = "running"
+            time.sleep(0.1)  # deterministic for tests
+            try:
+                _process_job(self.app, job_id)
+                with self.app.state.lock:
+                    self.app.state.job_error.pop(job_id, None)
+            except Exception as e:
+                with self.app.state.lock:
+                    self.app.state.job_error[job_id] = {"message": str(e), "trace": traceback.format_exc()}
+                    self.app.state.job_status[job_id] = "error"
+            finally:
+                self.app.state.job_queue.task_done()
