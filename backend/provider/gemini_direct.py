@@ -30,7 +30,7 @@ def call_gemini_direct_api(prompt: str, width: int, height: int, n: int) -> dict
     )
 
     if not api_key and not is_test_mode:
-        raise HTTPException(status_code=500, detail="Gemini API key not configured")
+        raise RuntimeError("ERR_GEMINI_KEY_MISSING")
 
     # For tests, return fake response in OpenRouter format
     if is_test_mode:
@@ -74,69 +74,42 @@ def call_gemini_direct_api(prompt: str, width: int, height: int, n: int) -> dict
 
         # Handle different response status codes
         if response.status_code == 429:
-            raise HTTPException(
-                status_code=429,
-                detail="Gemini API quota exceeded. Please try again later."
-            )
+            raise RuntimeError("ERR_GEMINI_QUOTA_EXCEEDED")
         elif response.status_code == 403:
-            raise HTTPException(
-                status_code=403,
-                detail="Gemini API access denied. Check your API key permissions."
-            )
+            raise RuntimeError("ERR_GEMINI_ACCESS_DENIED")
         elif response.status_code == 400:
-            raise HTTPException(
-                status_code=400,
-                detail="Invalid request to Gemini API. Check your prompt and parameters."
-            )
+            raise RuntimeError("ERR_GEMINI_INVALID_REQUEST")
         elif response.status_code != 200:
-            raise HTTPException(
-                status_code=500,
-                detail=f"Gemini API error: {response.text}"
-            )
+            raise RuntimeError(f"ERR_GEMINI_API_ERROR: {response.text}")
 
         # Parse the response
         json_response = response.json()
 
         # Check if response contains the expected structure
         if "candidates" not in json_response or not json_response["candidates"]:
-            raise HTTPException(
-                status_code=500,
-                detail="Gemini API returned no image candidates"
-            )
+            raise RuntimeError("ERR_GEMINI_NO_IMAGE")
 
         candidate = json_response["candidates"][0]
 
         # Check if the candidate has content and parts
         if "content" not in candidate or "parts" not in candidate["content"]:
-            raise HTTPException(
-                status_code=500,
-                detail="Gemini API response missing image content"
-            )
+            raise RuntimeError("ERR_GEMINI_NO_CONTENT")
 
         parts = candidate["content"]["parts"]
         if not parts:
-            raise HTTPException(
-                status_code=500,
-                detail="Gemini API returned no image parts"
-            )
+            raise RuntimeError("ERR_GEMINI_NO_PARTS")
 
         part = parts[0]
 
         # Check if the part has inline_data with data
         if "inline_data" not in part or "data" not in part["inline_data"]:
-            raise HTTPException(
-                status_code=500,
-                detail="Gemini API response missing image data"
-            )
+            raise RuntimeError("ERR_GEMINI_NO_DATA")
 
         # Extract the base64 data
         b64_data = part["inline_data"]["data"]
 
         if not b64_data:
-            raise HTTPException(
-                status_code=500,
-                detail="Gemini API returned empty image data"
-            )
+            raise RuntimeError("ERR_GEMINI_EMPTY_DATA")
 
         # Return in OpenRouter-compatible format
         return {
@@ -156,25 +129,13 @@ def call_gemini_direct_api(prompt: str, width: int, height: int, n: int) -> dict
         }
 
     except requests.exceptions.Timeout:
-        raise HTTPException(
-            status_code=504,
-            detail="Gemini API request timed out. Please try again."
-        )
+        raise RuntimeError("ERR_GEMINI_TIMEOUT")
     except requests.exceptions.ConnectionError:
-        raise HTTPException(
-            status_code=503,
-            detail="Unable to connect to Gemini API. Check your internet connection."
-        )
+        raise RuntimeError("ERR_GEMINI_CONNECTION")
     except requests.exceptions.RequestException as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Network error calling Gemini API: {str(e)}"
-        )
+        raise RuntimeError(f"ERR_GEMINI_NETWORK: {str(e)}")
     except ValueError as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error parsing Gemini API response: {str(e)}"
-        )
+        raise RuntimeError(f"ERR_GEMINI_PARSE: {str(e)}")
 
 
 def parse_data_urls_to_images(api_response: dict) -> List[Dict[str, Any]]:

@@ -61,6 +61,20 @@
 
 ---
 
+### Epic Fix-CI — Backend CI Fixes
+| ID | Title                      | MoSCoW | Priority | SP | EstHrs | Owner | Status  | Deps   | TestId | TestFiles                       | TestStatus |
+|----|----------------------------|--------|----------|----|--------|-------|---------|--------|--------|---------------------------------|------------|
+| Fix-CI-01 | Backend Test Schema Alignment | M      | P1       | 2  | 4      | BE    | Done   | —      | T-FCI   | backend/tests/test_logging_server.py | Passed |
+
+---
+
+### Epic UI-M — UI Management Modernization
+| ID | Title                      | MoSCoW | Priority | SP | EstHrs | Owner | Status  | Deps   | TestId | TestFiles                       | TestStatus |
+|----|----------------------------|--------|----------|----|--------|-------|---------|--------|--------|---------------------------------|------------|
+| UI-M1 | Modern Grid Layout + Dark Mode | M      | P1       | 5  | 12     | FE    | Done   | E3     | T-UIM   | frontend/tests/ui-management.test.tsx | Passed |
+
+---
+
 ### Epic E — Frontend UI (Next.js + shadcn/ui + sonner)
 | ID | Title                 | MoSCoW | Priority | SP | EstHrs | Owner | Status     | Deps | TestId | TestFiles                                              | TestStatus |
 |----|-----------------------|--------|----------|----|--------|-------|------------|------|--------|--------------------------------------------------------|------------|
@@ -145,8 +159,8 @@
 ---
 
 ## 📊 Summary Report (รวม)
-- **Total SP**: 47  
-- **Total Est. Hours**: 122h  
-- **By Epic (SP/Hrs)**: A 5/10h · B 9/20h · H 3/6h · E 9/24h · F 2/6h · D 8/26h · C 5/12h · J 6/18h
+- **Total SP**: 54
+- **Total Est. Hours**: 138h
+- **By Epic (SP/Hrs)**: A 5/10h · B 9/20h · H 3/6h · Fix-CI 2/4h · UI-M 5/12h · E 9/24h · F 2/6h · D 8/26h · C 5/12h · J 6/18h
 
 > อัปเดตสถานะงานได้โดยแก้คอลัมน์ `Status` และ `TestStatus` ของแต่ละสตอรี่ให้เป็น `InProgress/Done` เมื่อยูนิตเทสต์ผ่านครบ

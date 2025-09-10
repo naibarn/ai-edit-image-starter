@@ -7,12 +7,16 @@ def ensure_storage(dir_path: Union[str, Path]) -> None:
 
 
 def main():
-    # Ensure storage directory exists
-    storage_dir = Path("storage")
-    ensure_storage(storage_dir)
-    ensure_storage(storage_dir / "images")
-    ensure_storage(storage_dir / "queue")
-    ensure_storage("logs")
+    # Ensure backend directories exist
+    ensure_storage("backend/logs")
+    ensure_storage("backend/static")
+    ensure_storage("backend/storage")
+    ensure_storage("backend/storage/images")
+    ensure_storage("backend/storage/queue")
+
+    # Ensure frontend directories exist
+    ensure_storage("frontend/public")
+    ensure_storage("frontend/public/output")
 
     # Create requirements.txt if not exists
     if not Path("requirements.txt").exists():

@@ -64,13 +64,11 @@ def test_edit_image_with_base_and_refs(client, temp_image_dir):
                 "fmt": "png",
                 "n": 1,
             },
-            files={
-                "base": ("base.png", base64.b64decode(base_img_data), "image/png"),
-                "refs": [
-                    ("ref1.png", base64.b64decode(ref_img_data), "image/png"),
-                    ("ref2.png", base64.b64decode(ref_img_data), "image/png"),
-                ],
-            },
+            files=[
+                ("base", ("base.png", base64.b64decode(base_img_data), "image/png")),
+                ("refs", ("ref1.png", base64.b64decode(ref_img_data), "image/png")),
+                ("refs", ("ref2.png", base64.b64decode(ref_img_data), "image/png")),
+            ],
         )
         assert response.status_code == 200
         data = response.json()

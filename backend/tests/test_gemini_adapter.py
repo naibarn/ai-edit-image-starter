@@ -66,7 +66,7 @@ class TestGeminiDirectAdapter:
                 with pytest.raises(Exception) as exc_info:
                     call_gemini_direct_api("test prompt", 512, 512, 1)
 
-                assert "quota exceeded" in str(exc_info.value).lower()
+                assert "err_gemini_quota_exceeded" in str(exc_info.value).lower()
         finally:
             if original_test:
                 os.environ['PYTEST_CURRENT_TEST'] = original_test
@@ -90,7 +90,7 @@ class TestGeminiDirectAdapter:
                 with pytest.raises(Exception) as exc_info:
                     call_gemini_direct_api("test prompt", 512, 512, 1)
 
-                assert "access denied" in str(exc_info.value).lower()
+                assert "err_gemini_access_denied" in str(exc_info.value).lower()
         finally:
             if original_test:
                 os.environ['PYTEST_CURRENT_TEST'] = original_test
@@ -114,7 +114,7 @@ class TestGeminiDirectAdapter:
                 with pytest.raises(Exception) as exc_info:
                     call_gemini_direct_api("test prompt", 512, 512, 1)
 
-                assert "invalid request" in str(exc_info.value).lower()
+                assert "err_gemini_invalid_request" in str(exc_info.value).lower()
         finally:
             if original_test:
                 os.environ['PYTEST_CURRENT_TEST'] = original_test
@@ -133,12 +133,13 @@ class TestGeminiDirectAdapter:
 
         try:
             with patch('requests.post') as mock_post:
-                mock_post.side_effect = Exception("Connection timed out")
+                from requests.exceptions import Timeout
+                mock_post.side_effect = Timeout("Connection timed out")
 
                 with pytest.raises(Exception) as exc_info:
                     call_gemini_direct_api("test prompt", 512, 512, 1)
 
-                assert "timed out" in str(exc_info.value).lower()
+                assert "err_gemini_timeout" in str(exc_info.value).lower()
         finally:
             if original_test:
                 os.environ['PYTEST_CURRENT_TEST'] = original_test
@@ -163,7 +164,7 @@ class TestGeminiDirectAdapter:
                 with pytest.raises(Exception) as exc_info:
                     call_gemini_direct_api("test prompt", 512, 512, 1)
 
-                assert "unable to connect" in str(exc_info.value).lower()
+                assert "err_gemini_connection" in str(exc_info.value).lower()
         finally:
             if original_test:
                 os.environ['PYTEST_CURRENT_TEST'] = original_test
@@ -186,7 +187,7 @@ class TestGeminiDirectAdapter:
             with pytest.raises(Exception) as exc_info:
                 call_gemini_direct_api("test prompt", 512, 512, 1)
 
-            assert "api key not configured" in str(exc_info.value).lower()
+            assert "err_gemini_key_missing" in str(exc_info.value).lower()
         finally:
             # Restore original environment
             if original_key:

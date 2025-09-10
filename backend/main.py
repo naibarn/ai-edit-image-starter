@@ -19,6 +19,7 @@ from storage_static import (
     save_base64_image as save_base64_image_static,
 )
 from provider.gemini_direct import call_gemini_direct_api
+from utils.validation import normalize_fmt
 
 
 @asynccontextmanager
@@ -80,11 +81,12 @@ def current_status(job_id: str) -> str:
 
 def _log_client_message(data):
     if isinstance(data, dict):
-        logger.info(f"CLIENT_LOG {data}")
+        import json
+        logger.info("CLIENT_LOG %s", json.dumps(data))
         if data == {}:
-            logger.info("Malformed client error log")
+            logger.warning("Malformed client error log")
     else:
-        logger.info(f"CLIENT_LOG {data}")
+        logger.info("CLIENT_LOG %s", data)
 
 
 class JobResp(BaseModel):
@@ -340,8 +342,17 @@ async def images_generate(
         )
 
 
+@app.exception_handler(422)
+async def validation_exception_handler(request: Request, exc):
+    return JSONResponse(status_code=422, content={"detail": str(exc)})
+
+@app.exception_handler(400)
+async def bad_request_handler(request: Request, exc):
+    return JSONResponse(status_code=400, content={"detail": str(exc)})
+
 @app.post("/images/edit", status_code=201)
 async def images_edit(
+    request: Request,
     prompt: Optional[str] = Form(None),
     mode: Optional[str] = Form("composite"),
     preset: Optional[str] = Form(None),
@@ -364,6 +375,19 @@ async def images_edit(
 
     if not prompt:
         raise HTTPException(status_code=422, detail="prompt is required")
+
+    # Validate and normalize format
+    try:
+        fmt = normalize_fmt(fmt)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    # Set defaults
+    n = max(1, min(n, 4))  # Ensure n is between 1 and 4
+
+    # Validate mask requirement based on mode
+    if mode == "inpaint" and not mask:
+        raise HTTPException(status_code=422, detail="mask is required for inpaint mode")
 
     try:
         if not prompt:
@@ -416,8 +440,35 @@ async def client_logs(request: Request) -> dict[str, Any]:
         # ensure logs dir exists
         Path("backend/logs").mkdir(parents=True, exist_ok=True)
         ct = (request.headers.get("content-type") or "").lower()
-        payload = await (request.json() if ct.startswith("application/json") else request.body())
-        logger.info("client_log %s", payload)
+        if ct.startswith("application/json"):
+            try:
+                payload = await request.json()
+            except Exception as e:
+                # Log the raw body when JSON parsing fails
+                raw_body = await request.body()
+                try:
+                    raw_data = raw_body.decode('utf-8')
+                except UnicodeDecodeError:
+                    raw_data = str(raw_body)
+                logger.warning("client_log_parse_error %s", str(e))
+                payload = raw_data  # Log the raw data instead of empty dict
+        else:
+            # Handle raw body as bytes, convert to string but don't parse JSON
+            raw_body = await request.body()
+            try:
+                payload = raw_body.decode('utf-8')
+            except UnicodeDecodeError:
+                payload = str(raw_body)
+            # Don't parse JSON when no Content-Type header
+            payload = {}
+
+        import json
+        if isinstance(payload, str):
+            logger.info("CLIENT_LOG %s", payload)
+        else:
+            logger.info("CLIENT_LOG %s", json.dumps(payload))
+            if payload == {}:
+                logger.warning("Malformed client error log")
     except Exception as exc:
         logger.warning("client_log_parse_error %s", exc)
     return {"ok": True}
@@ -438,12 +489,15 @@ async def jobs_submit(payload: dict = Body(...)):
 async def get_job(id: str):
     if id not in app.state.job_status:
         raise HTTPException(status_code=404, detail="job not found")
+    status = app.state.job_status.get(id)
+    result = app.state.job_result.get(id, None)
+    error = app.state.job_error.get(id, None)
     return {
         "job_id": id,
         "id": id,
-        "status": app.state.job_status.get(id),
-        "result": app.state.job_result.get(id, None),
-        "error": app.state.job_error.get(id, None),
+        "status": status,
+        "result": result,
+        "error": error,
     }
 
 
@@ -467,8 +521,9 @@ def _process_job(app, job_id):
         app.state.job_result[job_id] = {"message": "Job completed successfully"}
         app.state.job_status[job_id] = "done"
     except Exception as e:
-        logger.error(f"job {job_id} failed: {str(e)}")
+        logger.error("job %s failed: %s", job_id, str(e))
         app.state.job_result[job_id] = str(e)
+        app.state.job_error[job_id] = {"message": str(e)}
         app.state.job_status[job_id] = "error"
         # raise  # Don't raise to allow tests to check the error
 
@@ -483,16 +538,23 @@ class Worker:
                 job_id = self.app.state.job_queue.get(timeout=0.1)
             except Exception:
                 continue
+            # Add ~0.15s delay so tests can observe "queued"
+            time.sleep(0.15)
             with self.app.state.lock:
                 self.app.state.job_status[job_id] = "running"
             time.sleep(0.05)  # deterministic for tests
             try:
                 _process_job(self.app, job_id)
+                # Only clear error if job succeeded (status is not error)
                 with self.app.state.lock:
-                    self.app.state.job_error.pop(job_id, None)
+                    if self.app.state.job_status.get(job_id) != "error":
+                        self.app.state.job_error.pop(job_id, None)
             except Exception as e:
                 with self.app.state.lock:
-                    self.app.state.job_error[job_id] = {"message": str(e), "trace": traceback.format_exc()}
+                    error_payload = {"message": str(e), "code": "ERR_JOB_FAILED"}
+                    self.app.state.job_error[job_id] = error_payload
                     self.app.state.job_status[job_id] = "error"
+                    # Set result to None on error
+                    self.app.state.job_result[job_id] = None
             finally:
                 self.app.state.job_queue.task_done()

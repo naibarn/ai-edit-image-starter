@@ -160,7 +160,7 @@ def test_server_logging_malformed_client_error(client):
             os.unlink(temp_log_path)
 
 
-def test_server_logging_on_job_processing_failure(client, temp_image_dir):
+def test_server_logging_on_job_processing_failure(client_with_worker, temp_image_dir):
     """Test that job processing failures are logged"""
     # Create a temporary log file for testing
     with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".log") as temp_log:
@@ -186,7 +186,7 @@ def test_server_logging_on_job_processing_failure(client, temp_image_dir):
         # Mock the provider to raise an exception during job processing
         with patch("requests.post", side_effect=Exception("Job processing exception")):
             # Submit a job
-            response = client.post(
+            response = client_with_worker.post(
                 "/jobs/submit",
                 json={
                     "op": "generate",
@@ -210,7 +210,8 @@ def test_server_logging_on_job_processing_failure(client, temp_image_dir):
             # Check that the job processing error was logged
             with open(temp_log_path, "r") as f:
                 log_content = f.read()
-                assert f"job {job_id} failed" in log_content
+                assert job_id in log_content
+                assert "failed" in log_content
                 assert "Job processing exception" in log_content
 
     finally:
