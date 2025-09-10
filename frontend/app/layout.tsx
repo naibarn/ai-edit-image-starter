@@ -4,7 +4,7 @@ import "./globals.css";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className="min-h-dvh bg-background text-foreground">
         <header className="border-b">
           <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
