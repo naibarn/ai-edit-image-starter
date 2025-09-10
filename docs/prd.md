@@ -52,9 +52,13 @@
 ### 6.1 Endpoints (Backend)
 1) `POST /images/generate` — form-data: `prompt,width,height,fmt(n≤4),provider?`
 2) `POST /images/edit` — multipart: `prompt,mode,preset?,width,height,fmt,n,base(mask,refs[]≤7),provider?`
-3) `GET /images` — รายการ ImageItem ล่าสุด
-4) `POST /logs/client` — รับ error จาก UI
+   - **Validation**: base required, refs ≤7, mask required only for inpaint mode
+   - **Format normalization**: jpeg → jpg, png/webp/jpg supported
+3) `GET /images` — รายการ ImageItem ล่าสุด (sorted by mtime desc)
+4) `POST /logs/client` — รับ error จาก UI (tolerant to content-type, handles malformed JSON)
 5) Queue: `POST /jobs/submit`, `GET /jobs/{id}`, `GET /jobs`
+   - **Job processing**: Logs failures with job_id and exception message
+   - **Worker lifecycle**: Proper thread management with stop_event and locks
 
 ### 6.2 UI (Next.js)
 - เพจ `/edit`: upload base/ref/mask + preset/mode/ขนาด/ฟอร์แมต/จำนวน + provider + ตัวเลือกใช้คิว

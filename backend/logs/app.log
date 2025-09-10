@@ -137,3 +137,392 @@ Traceback (most recent call last):
   File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 100, in call_openrouter_api
     raise HTTPException(status_code=500, detail=f"OpenRouter API error: {response.text}")
 fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 14:24:59,499 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 245, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 113, in call_openrouter_api
+    raise HTTPException(status_code=500, detail=f"OpenRouter API error: {response.text}")
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 14:26:29,300 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 245, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 113, in call_openrouter_api
+    raise HTTPException(status_code=500, detail=f"OpenRouter API error: {response.text}")
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 14:27:10,828 - app - ERROR - job d593085a-0414-4f3e-af0f-8113c7e624f5 failed: Provider error
+2025-09-08 14:32:59,957 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 245, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 113, in call_openrouter_api
+    raise HTTPException(status_code=500, detail=f"OpenRouter API error: {response.text}")
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 14:33:00,040 - app - ERROR - job de19791c-3dc7-4c3c-a12b-1cbd57a7de97 failed: Provider error
+2025-09-08 14:33:00,802 - app - ERROR - job 68f8f00d-7077-4492-9331-aedaaf95d9a8 failed: Test error
+2025-09-08 14:33:21,547 - app - ERROR - job 255c605a-7985-4f1d-908b-8a1aedf94b2f failed: Provider error
+2025-09-08 14:33:21,677 - app - ERROR - job 05a23cbf-c948-40e8-9313-235c198a1f4a failed: Simulated error
+2025-09-08 14:35:58,170 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 245, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 113, in call_openrouter_api
+    raise HTTPException(status_code=500, detail=f"OpenRouter API error: {response.text}")
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 14:36:19,615 - app - ERROR - job 25d6bd2b-3200-4b5b-a684-ec6e282c2132 failed: Test error
+2025-09-08 14:36:40,892 - app - ERROR - job d5866802-6db9-4e6d-93e1-c69157fb236a failed: Provider error
+2025-09-08 14:36:51,204 - app - ERROR - job 290f6892-862b-4623-add5-4a64d9153911 failed: Simulated error
+2025-09-08 14:38:07,647 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 245, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 113, in call_openrouter_api
+    raise HTTPException(status_code=500, detail=f"OpenRouter API error: {response.text}")
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 14:38:29,053 - app - ERROR - job e1b581e7-5539-4ecc-8860-c8390baefa32 failed: Test error
+2025-09-08 14:38:50,053 - app - ERROR - job 69a32c2d-2480-477e-9a65-31486192589b failed: Provider error
+2025-09-08 14:38:50,386 - app - ERROR - job 1a5d8209-852a-4175-b09a-f7e2b7ff3503 failed: Simulated error
+2025-09-08 20:21:35,849 - app - ERROR - job dcfa2575d2b24b94892f2496b5880028 failed: Provider error
+2025-09-08 20:22:13,120 - app - ERROR - job 80974d06328b4d74bee14f41340dcc1f failed: Provider error
+2025-09-08 20:22:34,829 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 249, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 117, in call_openrouter_api
+    raise HTTPException(status_code=500, detail=f"OpenRouter API error: {response.text}")
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 20:22:57,234 - app - ERROR - job 633ba0abab504c24b3c235938ea9c02d failed: Test error
+2025-09-08 20:23:25,038 - app - ERROR - job 633b5c9f208f4f97ae78b3e6793c7e7d failed: Provider error
+2025-09-08 20:23:26,063 - app - ERROR - job 200149e96ac941f1a5b3245757b7c4dc failed: Provider error
+2025-09-08 20:23:32,116 - app - ERROR - job 79a9d39d0d444b909b19084224af0533 failed: Simulated error
+2025-09-08 21:26:05,165 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 374, in images_edit
+    filename = save_base64_image(b64_data, STORAGE_DIR, fmt)
+               ^^^^^^^^^^^^^^^^^
+NameError: name 'save_base64_image' is not defined
+2025-09-08 21:26:05,185 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 374, in images_edit
+    filename = save_base64_image(b64_data, STORAGE_DIR, fmt)
+               ^^^^^^^^^^^^^^^^^
+NameError: name 'save_base64_image' is not defined
+2025-09-08 21:26:05,927 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 293, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 157, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 21:26:09,856 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 374, in images_edit
+    filename = save_base64_image(b64_data, STORAGE_DIR, fmt)
+               ^^^^^^^^^^^^^^^^^
+NameError: name 'save_base64_image' is not defined
+2025-09-08 21:26:09,868 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 374, in images_edit
+    filename = save_base64_image(b64_data, STORAGE_DIR, fmt)
+               ^^^^^^^^^^^^^^^^^
+NameError: name 'save_base64_image' is not defined
+2025-09-08 21:26:35,555 - app - ERROR - job 863ee7fe-1106-464a-aa25-74510e3c6fb5 failed: Provider error
+2025-09-08 21:26:36,917 - app - ERROR - job 5ed94808-c518-4096-ad39-e665332af98b failed: Provider error
+2025-09-08 21:38:07,455 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 297, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 161, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 21:38:57,536 - app - ERROR - job 5a726154-ddec-4eca-b196-2daa452c5984 failed: Provider error
+2025-09-08 21:38:58,511 - app - ERROR - job 27ea3b57-c8f9-4a1b-801e-2ef301ce4f6e failed: Provider error
+2025-09-08 22:04:45,129 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 298, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 163, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-08 22:05:36,053 - app - ERROR - job 9272910d-b805-4c04-bfa3-563bbe1684d1 failed: Provider error
+2025-09-08 22:05:37,454 - app - ERROR - job 19625696-9b1b-42f8-9804-9a1ad3e51e4b failed: Provider error
+2025-09-09 21:32:11,027 - app - ERROR - job d43f9148-7b6a-4f4e-a660-c11c69db6162 failed: Provider error
+2025-09-09 21:32:41,216 - app - ERROR - job c5bf5538-0026-470b-bca0-719fc65c57f8 failed: Provider error
+2025-09-09 21:32:54,952 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 298, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 163, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-09 21:32:56,632 - app - ERROR - job e2b55916-ff7d-443f-a477-46c6c4b04be6 failed: Provider error
+2025-09-09 21:32:59,297 - app - ERROR - job c11ec87e-279c-4ee8-b325-029ba8c5a75a failed: Test error
+2025-09-09 21:33:21,565 - app - ERROR - job 6863b1f3-04f8-4640-a5f0-4bba1f382329 failed: Provider error
+2025-09-09 21:33:23,123 - app - ERROR - job df7becf7-579c-468c-a887-a7e514a30b60 failed: Simulated error
+2025-09-09 21:33:58,109 - app - ERROR - job 9a3435d4-a089-420a-88aa-424734d0f68f failed: Provider error
+2025-09-09 21:34:00,376 - app - ERROR - job cb3247e4-fc60-4503-831f-a5bdb495bec8 failed: Test error
+2025-09-09 22:43:05,437 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 298, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 163, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-09 22:43:06,740 - app - ERROR - job 3a568701-2abc-4298-8c1d-d37dbe40b34a failed: Provider error
+2025-09-09 22:43:08,216 - app - ERROR - job ac1cfccf-f203-477e-89e5-e63cbae01725 failed: Test error
+2025-09-09 22:43:33,844 - app - ERROR - job e094978f-548a-493e-acaf-eadc6cbf3e96 failed: Provider error
+2025-09-09 22:43:34,797 - app - ERROR - job f391ad42-959e-4b8b-a09d-4d49989f3566 failed: Simulated error
+2025-09-09 22:59:53,163 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 298, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 163, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-09 22:59:54,479 - app - ERROR - job 1a70055c-883d-43be-8b9a-e454d9429eb4 failed: Provider error
+2025-09-09 22:59:55,950 - app - ERROR - job 4ad3a073-b983-41c8-a44d-4b99cceb3578 failed: Test error
+2025-09-09 23:00:18,142 - app - ERROR - job 0586c1cb-ec46-42f6-925e-cda7adbdd0df failed: Provider error
+2025-09-09 23:00:19,089 - app - ERROR - job 31db7f11-de98-487d-b4f7-b60712830be7 failed: Simulated error
+2025-09-10 01:01:56,806 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 293, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 01:01:57,581 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 299, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 164, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-10 01:01:58,885 - app - ERROR - job 0b1c7f97-c946-4b1e-b08b-130dd95646f2 failed: Provider error
+2025-09-10 01:02:00,330 - app - ERROR - job 2322b05f-2957-4132-8568-c2d05801d0c2 failed: Test error
+2025-09-10 01:02:20,684 - app - ERROR - job b26a60b2-a4da-47df-86c8-c0b01590225e failed: Provider error
+2025-09-10 01:02:21,633 - app - ERROR - job 89ba020a-7483-4ea2-a9a6-eb3b2c98a7c0 failed: Simulated error
+2025-09-10 02:03:19,186 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 293, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 02:04:59,364 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 293, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 02:05:44,333 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 293, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 02:05:54,803 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 293, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 02:38:08,120 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 293, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 02:38:08,889 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 299, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 164, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-10 02:38:10,192 - app - ERROR - job 902e4927-40d0-4b6f-b234-35b204680220 failed: Provider error
+2025-09-10 02:38:11,662 - app - ERROR - job 13553c51-1a21-43e4-928d-a3d1f6dff3d7 failed: Test error
+2025-09-10 02:38:32,793 - app - ERROR - job b5f07ef8-1666-4377-ae51-1d760837591c failed: Provider error
+2025-09-10 02:38:33,770 - app - ERROR - job 024365c0-b453-4334-a672-8f138cffc04e failed: Simulated error
+2025-09-10 02:47:19,981 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 295, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 02:47:20,890 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 301, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 166, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-10 09:23:43,215 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 299, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 09:23:44,123 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 305, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 170, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-10 09:23:45,457 - app - ERROR - job 02ff3400-3d2d-4ea5-9c32-263f97e34ee7 failed: Provider error
+2025-09-10 09:23:46,867 - app - ERROR - job 856c6313-801c-47df-803b-b18819d5a5b6 failed: Test error
+2025-09-10 09:24:08,259 - app - ERROR - job 222af9fd-39d3-47a7-9eef-a4d2c703040a failed: Provider error
+2025-09-10 09:24:09,097 - app - ERROR - job 2bd81f7a-7885-483c-9e27-9a8a2ce1c9e7 failed: Simulated error
+2025-09-10 09:25:49,175 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 299, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 09:26:15,910 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 299, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 09:26:44,277 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 299, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 09:26:45,456 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 305, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 170, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-10 09:26:46,791 - app - ERROR - job 8c37bfc0-01d0-43fa-884c-6da52ddca25f failed: Provider error
+2025-09-10 09:26:48,209 - app - ERROR - job 8a86e6f9-30a0-435a-a6b7-2129d5ac4edb failed: Test error
+2025-09-10 09:27:09,786 - app - ERROR - job d6f6bde6-791d-46b6-a6e7-2a9b3e3ea8f1 failed: Provider error
+2025-09-10 09:27:10,632 - app - ERROR - job c4749211-a517-4254-a6a5-c04f37cea801 failed: Simulated error
+2025-09-10 09:27:57,292 - app - ERROR - job eb78a9f1-ceae-4266-9637-dc8d9f4b6b7d failed: Provider error
+2025-09-10 09:28:32,262 - app - ERROR - job 7aa27152-7c41-4510-a1c0-b42af1a5f8af failed: Provider error
+2025-09-10 09:29:01,976 - app - ERROR - job 71a712e2-cb31-42ea-8ad7-14bd30119e38 failed: Provider error
+2025-09-10 09:29:40,253 - app - ERROR - job e068e889-8551-4c80-9889-f66384ff7388 failed: Provider error
+2025-09-10 09:30:06,295 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 299, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 09:30:07,288 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 305, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 170, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-10 09:30:33,637 - app - ERROR - job ef83f643-ec9c-463d-a30d-c57084440bdf failed: Provider error
+2025-09-10 09:31:14,607 - app - ERROR - job d452376f-67ae-4548-9bbe-6756abdea782 failed: Provider error
+2025-09-10 09:40:42,356 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 300, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 09:40:43,380 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 306, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 171, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-10 09:40:44,734 - app - ERROR - job 2033b798-69b7-4adb-9f81-77e43e300f02 failed: Provider error
+2025-09-10 09:40:46,131 - app - ERROR - job 516efa2d-2c79-460b-8330-92a82215ca15 failed: Test error
+2025-09-10 09:41:10,209 - app - ERROR - job 510e2af9-985b-412e-a874-f27392be874d failed: Provider error
+2025-09-10 09:41:11,219 - app - ERROR - job 61d16d40-922f-4b1f-b15f-f756487c4c81 failed: Simulated error
+2025-09-10 09:44:02,392 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 300, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 09:44:03,441 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 306, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 171, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-10 09:44:04,880 - app - ERROR - job 7a6e7175-f13c-4692-a855-10215ed8e075 failed: Provider error
+2025-09-10 09:44:06,272 - app - ERROR - job c51ed897-a3be-40af-80cc-ad5c9ae2aa17 failed: Test error
+2025-09-10 09:44:26,487 - app - ERROR - job 11c5a077-8fa5-43de-b5de-c811e78140d7 failed: Provider error
+2025-09-10 09:44:27,506 - app - ERROR - job f37d8276-abde-4707-a6c6-930740de4b74 failed: Simulated error
+2025-09-10 09:47:51,156 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 301, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 09:47:52,151 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 307, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 172, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-10 09:47:53,482 - app - ERROR - job 6021c84d-0afb-482f-ac69-6b06aa1d62fa failed
+2025-09-10 09:47:54,877 - app - ERROR - job dff64b97-f447-4af2-80b2-daa5b5aa75a1 failed
+2025-09-10 09:48:16,609 - app - ERROR - job bace650c-04cf-4f9f-86ae-25dd7f3f572d failed
+2025-09-10 09:48:17,623 - app - ERROR - job 229af650-82b6-4b6e-b1a4-75dad9c28149 failed
+2025-09-10 10:03:33,848 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 301, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 10:03:34,605 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 307, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 172, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-10 10:03:35,940 - app - ERROR - job fd55e7d5-a44a-4036-b91f-010a5955421a failed
+2025-09-10 10:03:37,357 - app - ERROR - job dee7d652-a7e6-4f15-8e3b-fa66de9aabf6 failed
+2025-09-10 10:03:58,006 - app - ERROR - job d2050fee-7de1-4468-9ae9-2b95430fd0a0 failed
+2025-09-10 10:03:59,042 - app - ERROR - job 6dc3eba6-a541-4a9c-b56d-66ee66cbb1e2 failed
+2025-09-10 10:08:42,957 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 301, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 10:08:43,784 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 307, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 172, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-10 10:08:45,222 - app - ERROR - job 8b72cd6e-7ebd-43e9-8ab8-60741a9e56e3 failed
+2025-09-10 10:08:46,621 - app - ERROR - job 143e8a14-1b97-42de-b73e-853ca8af72fc failed
+2025-09-10 10:13:33,517 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 301, in images_generate
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Invalid provider. Use 'openrouter', 'gemini', or 'gemini-direct'
+2025-09-10 10:13:34,435 - app - ERROR - generate_image failed
+Traceback (most recent call last):
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 307, in images_generate
+    api_response = call_openrouter_api(prompt, width, height, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Projects\Ai Image Edit Starter\backend\main.py", line 172, in call_openrouter_api
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 500: OpenRouter API error: 
+2025-09-10 10:13:35,753 - app - ERROR - job 3279872c-fb8e-43cc-93cc-1b2714f19fdb failed: Provider error
+2025-09-10 10:13:37,150 - app - ERROR - job 9f842e8f-af5d-4167-9d7b-432461681555 failed: Test error
+2025-09-10 10:13:57,618 - app - ERROR - job d4c793bf-8b30-45b2-9908-66f81849fa02 failed: Provider error
+2025-09-10 10:13:58,656 - app - ERROR - job 90b2fe10-cda3-4805-a139-f21417acb9c9 failed: Simulated error
