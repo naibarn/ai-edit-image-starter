@@ -1,12 +1,10 @@
 name: CI
 on:
-  push:
-    branches: [ "**" ]
-  pull_request:
-    branches: [ "**" ]
+  push: { branches: ["**"] }
+  pull_request: { branches: ["**"] }
+  workflow_dispatch:
 jobs:
   backend:
-    if: ${{ hashFiles('backend/**') != '' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,8 +17,8 @@ jobs:
       - name: PyTest
         working-directory: backend
         run: pytest -q
+
   frontend:
-    if: ${{ hashFiles('frontend/**') != '' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -35,7 +33,7 @@ jobs:
             pnpm test -c || pnpm test || true
             pnpm build || true
           elif [ -f package-lock.json ]; then
-            npm ci --no-audit --no-fund --no-optional
+            npm ci --no-audit --no-fund
             npm test --if-present || true
             npm run build --if-present || true
           elif [ -f yarn.lock ]; then
