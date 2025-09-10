@@ -452,7 +452,7 @@ async def get_job(id: str):
 
 def _claim_one_job(app):
     try:
-        return app.state.job_queue.get_nowait()
+        return app.state.job_queue.get(timeout=0.1)
     except Empty:
         return None
 
@@ -463,7 +463,7 @@ def _process_job(app, job_id):
     try:
         # Add a small delay to allow tests to see "running" state
         time.sleep(0.05)
-        requests.post("https://dummy.com")
+        requests.post("https://dummy.com", timeout=10)
         app.state.job_result[job_id] = {"message": "Job completed successfully"}
         app.state.job_status[job_id] = "done"
     except Exception as e:
