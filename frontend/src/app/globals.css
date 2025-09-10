@@ -1,7 +1,7 @@
-@reference "./globals.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-:root{--background:0 0% 100%;--foreground:222.2 84% 4.9%;--primary:222.2 47.4% 11.2%;--primary-foreground:210 40% 98%}
-.dark{--background:222.2 84% 4.9%;--foreground:210 40% 98%}
-body{@apply bg-background text-foreground antialiased}
+
+body {
+  @apply antialiased;
+}
