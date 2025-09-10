@@ -63,8 +63,13 @@ export default function EditPage() {
   });
 
   async function refresh() {
-    const res = await fetch(`${API}/images`, { cache: "no-store" });
-    setItems(await res.json());
+    try {
+      const res = await fetch(`${API}/images`, { cache: "no-store" });
+      const data = await res.json();
+      setItems(Array.isArray(data) ? data : []);
+    } catch (e) {
+      setItems([]);
+    }
   }
   useEffect(() => {
     refresh();
@@ -282,9 +287,9 @@ export default function EditPage() {
               </div>
 
               <div className="space-y-2">
-                <Label>Preset</Label>
+                <Label htmlFor="preset-select">Preset</Label>
                 <Select defaultValue={form.getValues("preset")} onValueChange={(v) => form.setValue("preset", v as any)}>
-                  <SelectTrigger>
+                  <SelectTrigger id="preset-select">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -297,9 +302,9 @@ export default function EditPage() {
               </div>
 
               <div className="space-y-2">
-                <Label>Provider</Label>
+                <Label htmlFor="provider-select">Provider</Label>
                 <Select defaultValue={form.getValues("provider")} onValueChange={(v) => form.setValue("provider", v as any)}>
-                  <SelectTrigger>
+                  <SelectTrigger id="provider-select">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -321,8 +326,10 @@ export default function EditPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label>Width: {form.watch("width")}</Label>
+                  <Label htmlFor="width-slider">Width: {form.watch("width")}</Label>
                   <Slider
+                    id="width-slider"
+                    aria-label="Width"
                     defaultValue={[form.getValues("width")]}
                     min={256}
                     max={2048}
@@ -331,8 +338,10 @@ export default function EditPage() {
                   />
                 </div>
                 <div>
-                  <Label>Height: {form.watch("height")}</Label>
+                  <Label htmlFor="height-slider">Height: {form.watch("height")}</Label>
                   <Slider
+                    id="height-slider"
+                    aria-label="Height"
                     defaultValue={[form.getValues("height")]}
                     min={256}
                     max={2048}
@@ -344,9 +353,9 @@ export default function EditPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label>Format</Label>
+                  <Label htmlFor="format-select">Format</Label>
                   <Select defaultValue={form.getValues("fmt")} onValueChange={(v) => form.setValue("fmt", v as any)}>
-                    <SelectTrigger>
+                    <SelectTrigger id="format-select">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -357,8 +366,8 @@ export default function EditPage() {
                   </Select>
                 </div>
                 <div>
-                  <Label>Outputs: {form.watch("n")}</Label>
-                  <Slider defaultValue={[form.getValues("n")]} min={1} max={4} step={1} onValueChange={(v) => form.setValue("n", v[0])} />
+                  <Label htmlFor="outputs-slider">Outputs: {form.watch("n")}</Label>
+                  <Slider id="outputs-slider" aria-label="Outputs" defaultValue={[form.getValues("n")]} min={1} max={4} step={1} onValueChange={(v) => form.setValue("n", v[0])} />
                 </div>
               </div>
 
@@ -372,7 +381,7 @@ export default function EditPage() {
                   <Label htmlFor="useQueue">Use Queue</Label>
                 </div>
                 <div className="space-y-2 w-40">
-                  {progress > 0 && <Progress value={progress} />}
+                  <Progress value={progress} />
                 </div>
               </div>
 
@@ -390,13 +399,15 @@ export default function EditPage() {
         {items.map((it) => (
           <figure key={it.filename} className="border rounded-2xl p-3 shadow-sm">
             <div className="relative w-full aspect-square">
-              <Image src={`${API}${it.url}`} alt={it.filename} fill sizes="33vw" style={{ objectFit: "cover" }} />
+              <Image src={`${API}${it.url}`} alt="Generated image" fill sizes="33vw" style={{ objectFit: "cover" }} />
             </div>
             <div className="mt-2 text-sm flex items-center justify-between">
               <span className="text-muted-foreground">{(it.size_bytes / 1024).toFixed(1)} KB</span>
-              <a className="underline" href={`${API}${it.url}`} download>
-                Download
-              </a>
+              <Button asChild variant="link" className="p-0 h-auto">
+                <a href={`${API}${it.url}`} download>
+                  Download
+                </a>
+              </Button>
             </div>
           </figure>
         ))}

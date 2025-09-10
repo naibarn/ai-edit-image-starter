@@ -2,6 +2,10 @@ fastapi
 uvicorn
 pydantic
 sqlalchemy
+httpx
+requests
+python-multipart
+pillow
 # dev/test
 pytest
 ruff
