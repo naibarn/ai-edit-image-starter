@@ -113,6 +113,11 @@
 
 ---
 
+### Epic UI-M — UI Management Modernization
+| ID | Title                      | MoSCoW | Priority | SP | EstHrs | Owner | Status  | Deps   | TestId | TestFiles                       | TestStatus |
+|----|----------------------------|--------|----------|----|--------|-------|---------|--------|--------|---------------------------------|------------|
+| UI-M1 | Modern Grid Layout + Dark Mode | M      | P1       | 5  | 12     | FE    | InProgress | E3     | T-UIM   | frontend/tests/ui-management.test.tsx | NotStarted |
+
 ### Epic J — Testing & Quality
 | ID | Title                      | MoSCoW | Priority | SP | EstHrs | Owner | Status  | Deps   | TestId | TestFiles                       | TestStatus |
 |----|----------------------------|--------|----------|----|--------|-------|---------|--------|--------|---------------------------------|------------|
@@ -139,14 +144,14 @@
 ---
 
 ## ✅ DoR / DoD มาตรฐาน (อัปเดตเพิ่มข้อทดสอบ)
-- **DoR**: Story/AC ชัดเจน, Deps ครบ, มี TestSpec/TestFiles ระบุไว้  
+- **DoR**: Story/AC ชัดเจน, Deps ครบ, มี TestSpec/TestFiles ระบุไว้
 - **DoD**: โค้ดผ่าน Lint/Build, **Unit tests ของสตอรี่ = Passed**, Log/Errors ครบ, เอกสารถูกอัปเดต
 
 ---
 
 ## 📊 Summary Report (รวม)
-- **Total SP**: 47  
-- **Total Est. Hours**: 122h  
-- **By Epic (SP/Hrs)**: A 5/10h · B 9/20h · H 3/6h · E 9/24h · F 2/6h · D 8/26h · C 5/12h · J 6/18h
+- **Total SP**: 52
+- **Total Est. Hours**: 134h
+- **By Epic (SP/Hrs)**: A 5/10h · B 9/20h · H 3/6h · E 9/24h · UI-M 5/12h · F 2/6h · D 8/26h · C 5/12h · J 6/18h
 
 > อัปเดตสถานะงานได้โดยแก้คอลัมน์ `Status` และ `TestStatus` ของแต่ละสตอรี่ให้เป็น `InProgress/Done` เมื่อยูนิตเทสต์ผ่านครบ

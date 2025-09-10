@@ -1,23 +1,16 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import Image from "next/image";
 import axios from "axios";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
-import { Separator } from "@/components/ui/separator";
-import { Progress } from "@/components/ui/progress";
-import { Switch } from "@/components/ui/switch";
+import { Header } from "@/components/Header";
+import { Sidebar } from "@/components/Sidebar";
+import { MainPanel } from "@/components/MainPanel";
+import { Gallery } from "@/components/Gallery";
+import { Toaster } from "@/components/ui/sonner";
 
 const API = process.env.NEXT_PUBLIC_API_BASE as string;
 const DEFAULT_USE_QUEUE = String(process.env.NEXT_PUBLIC_USE_QUEUE || "false") === "true";
@@ -45,6 +38,7 @@ export default function EditPage() {
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState(0);
   const [items, setItems] = useState<ImageItem[]>([]);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -183,235 +177,31 @@ export default function EditPage() {
   }
 
   return (
-    <main className="space-y-8">
-      <div className="rounded-2xl bg-gradient-to-br from-muted/40 to-muted p-6 border">
-        <h1 className="text-3xl font-semibold tracking-tight">AI Image Studio</h1>
-        <p className="text-muted-foreground mt-1">
-          Base + Refs + Mask · Presets · Provider Switch · Queue · shadcn/ui + toasts
-        </p>
+    <div className={`min-h-screen ${isDarkMode ? 'dark' : ''}`}>
+      <Header isDarkMode={isDarkMode} onToggleDarkMode={setIsDarkMode} />
+      <div className="grid lg:grid-cols-[320px_1fr] min-h-[calc(100vh-80px)]">
+        <Sidebar
+          mode={form.watch("mode")}
+          preset={form.watch("preset")}
+          provider={form.watch("provider")}
+          onModeChange={(v: string) => form.setValue("mode", v as any)}
+          onPresetChange={(v: string) => form.setValue("preset", v as any)}
+          onProviderChange={(v: string) => form.setValue("provider", v as any)}
+        />
+        <div className="flex flex-col">
+          <MainPanel
+            form={form}
+            busy={busy}
+            progress={progress}
+            basePreview={basePreview}
+            maskPreview={maskPreview}
+            refPreviews={refPreviews}
+            onSubmit={onSubmit}
+          />
+          <Gallery items={items} apiBase={API} />
+        </div>
       </div>
-
-      <Card className="shadow-sm rounded-2xl">
-        <CardHeader>
-          <CardTitle>Upload & Settings</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* Uploads */}
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="base">Base Image *</Label>
-                <Input
-                  id="base"
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    const f = e.target.files?.[0];
-                    if (f) form.setValue("base", f, { shouldValidate: true });
-                  }}
-                />
-              </div>
-
-              {basePreview && (
-                <div className="relative w-full aspect-square rounded-xl overflow-hidden border">
-                  <Image src={basePreview} alt="base" fill sizes="50vw" style={{ objectFit: "cover" }} />
-                </div>
-              )}
-
-              <div className="space-y-2">
-                <Label htmlFor="mask">Mask (PNG/alpha, optional)</Label>
-                <Input
-                  id="mask"
-                  type="file"
-                  accept="image/png,image/webp,image/*"
-                  onChange={(e) => {
-                    const f = e.target.files?.[0];
-                    form.setValue("mask", f as any);
-                  }}
-                />
-              </div>
-
-              {maskPreview && (
-                <div className="relative w-full aspect-square rounded-xl overflow-hidden border">
-                  <Image src={maskPreview} alt="mask" fill sizes="50vw" style={{ objectFit: "cover" }} />
-                </div>
-              )}
-
-              <div className="space-y-2">
-                <Label htmlFor="refs">Reference Images (0–7)</Label>
-                <Input
-                  id="refs"
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  onChange={(e) => {
-                    const list = e.target.files ? Array.from(e.target.files).slice(0, 7) : [];
-                    form.setValue("refs", list as any, { shouldValidate: true });
-                  }}
-                />
-              </div>
-
-              {refPreviews.length > 0 && (
-                <div className="grid grid-cols-3 gap-2">
-                  {refPreviews.map((src, i) => (
-                    <div key={i} className="relative w-full aspect-square rounded-lg overflow-hidden border">
-                      <Image src={src} alt={`ref-${i}`} fill sizes="25vw" style={{ objectFit: "cover" }} />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Controls */}
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label>Mode</Label>
-                <RadioGroup
-                  defaultValue={form.getValues("mode")}
-                  onValueChange={(v) => form.setValue("mode", v as any)}
-                  className="flex flex-wrap gap-4"
-                >
-                  <div className="flex items-center gap-2">
-                    <RadioGroupItem id="m1" value="composite" />
-                    <Label htmlFor="m1">Composite</Label>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <RadioGroupItem id="m2" value="garment_transfer" />
-                    <Label htmlFor="m2">Garment Transfer</Label>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <RadioGroupItem id="m3" value="inpaint" />
-                    <Label htmlFor="m3">Inpaint (Mask)</Label>
-                  </div>
-                </RadioGroup>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="preset-select">Preset</Label>
-                <Select defaultValue={form.getValues("preset")} onValueChange={(v) => form.setValue("preset", v as any)}>
-                  <SelectTrigger id="preset-select">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="none">none</SelectItem>
-                    <SelectItem value="blur_bg">blur background</SelectItem>
-                    <SelectItem value="change_clothes">change clothes</SelectItem>
-                    <SelectItem value="remove_object">remove object</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="provider-select">Provider</Label>
-                <Select defaultValue={form.getValues("provider")} onValueChange={(v) => form.setValue("provider", v as any)}>
-                  <SelectTrigger id="provider-select">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="auto">auto</SelectItem>
-                    <SelectItem value="openrouter">OpenRouter</SelectItem>
-                    <SelectItem value="gemini-direct">Gemini (direct)</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label>Prompt</Label>
-                <Textarea
-                  rows={4}
-                  defaultValue={form.getValues("prompt")}
-                  onChange={(e) => form.setValue("prompt", e.target.value)}
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="width-slider">Width: {form.watch("width")}</Label>
-                  <Slider
-                    id="width-slider"
-                    aria-label="Width"
-                    defaultValue={[form.getValues("width")]}
-                    min={256}
-                    max={2048}
-                    step={64}
-                    onValueChange={(v) => form.setValue("width", v[0])}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="height-slider">Height: {form.watch("height")}</Label>
-                  <Slider
-                    id="height-slider"
-                    aria-label="Height"
-                    defaultValue={[form.getValues("height")]}
-                    min={256}
-                    max={2048}
-                    step={64}
-                    onValueChange={(v) => form.setValue("height", v[0])}
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="format-select">Format</Label>
-                  <Select defaultValue={form.getValues("fmt")} onValueChange={(v) => form.setValue("fmt", v as any)}>
-                    <SelectTrigger id="format-select">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="png">png</SelectItem>
-                      <SelectItem value="webp">webp</SelectItem>
-                      <SelectItem value="jpg">jpg</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label htmlFor="outputs-slider">Outputs: {form.watch("n")}</Label>
-                  <Slider id="outputs-slider" aria-label="Outputs" defaultValue={[form.getValues("n")]} min={1} max={4} step={1} onValueChange={(v) => form.setValue("n", v[0])} />
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Switch
-                    id="useQueue"
-                    checked={form.watch("useQueue")}
-                    onCheckedChange={(v) => form.setValue("useQueue", !!v)}
-                  />
-                  <Label htmlFor="useQueue">Use Queue</Label>
-                </div>
-                <div className="space-y-2 w-40">
-                  <Progress value={progress} />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Button className="w-full" disabled={busy} onClick={form.handleSubmit(onSubmit)}>
-                  {busy ? "Processing…" : "Generate / Edit"}
-                </Button>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {items.map((it) => (
-          <figure key={it.filename} className="border rounded-2xl p-3 shadow-sm">
-            <div className="relative w-full aspect-square">
-              <Image src={`${API}${it.url}`} alt="Generated image" fill sizes="33vw" style={{ objectFit: "cover" }} />
-            </div>
-            <div className="mt-2 text-sm flex items-center justify-between">
-              <span className="text-muted-foreground">{(it.size_bytes / 1024).toFixed(1)} KB</span>
-              <Button asChild variant="link" className="p-0 h-auto">
-                <a href={`${API}${it.url}`} download>
-                  Download
-                </a>
-              </Button>
-            </div>
-          </figure>
-        ))}
-      </section>
-    </main>
+      <Toaster position="top-right" />
+    </div>
   );
 }

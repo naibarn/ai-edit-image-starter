@@ -57,8 +57,12 @@
 5) Queue: `POST /jobs/submit`, `GET /jobs/{id}`, `GET /jobs`
 
 ### 6.2 UI (Next.js)
-- เพจ `/edit`: upload base/ref/mask + preset/mode/ขนาด/ฟอร์แมต/จำนวน + provider + ตัวเลือกใช้คิว
-- ปุ่ม Generate + progress + toast + แกลเลอรี + Download
+- เพจ `/edit`: Modern grid-based layout with header, sidebar, main panel, and gallery
+- **Header**: App title + Dark/Light mode toggle (Radix Switch)
+- **Sidebar**: Tabbed interface with Modes (composite/garment_transfer/inpaint) + Settings (presets/providers)
+- **Main Panel**: Upload base/ref/mask + prompt/ขนาด/ฟอร์แมต/จำนวน + provider + queue toggle + progress bar
+- **Gallery**: Animated cards with hover effects (Framer Motion) + download buttons
+- ปุ่ม Generate + progress + toast + responsive design + accessibility (ARIA labels, keyboard navigation)
 
 ### 6.3 Storage
 - `frontend/public/output/*.{png,webp,jpg}` (เสิร์ฟโดย Next.js)
