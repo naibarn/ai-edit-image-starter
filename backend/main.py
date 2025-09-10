@@ -48,6 +48,10 @@ handler = logging.FileHandler("logs/app.log")
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
+# Add console handler for better CI visibility
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(formatter)
+logger.addHandler(console_handler)
 logger.setLevel(logging.INFO)
 
 # Storage setup
@@ -458,7 +462,7 @@ def _process_job(app, job_id):
     # Simulate failure by calling API (mocked in test)
     try:
         # Add a small delay to allow tests to see "running" state
-        time.sleep(0.1)
+        time.sleep(0.05)
         requests.post("https://dummy.com")
         app.state.job_result[job_id] = {"message": "Job completed successfully"}
         app.state.job_status[job_id] = "done"
@@ -476,12 +480,12 @@ class Worker:
     def run(self):
         while not self.app.state.stop_event.is_set():
             try:
-                job_id = self.app.state.job_queue.get(timeout=0.2)
+                job_id = self.app.state.job_queue.get(timeout=0.1)
             except Exception:
                 continue
             with self.app.state.lock:
                 self.app.state.job_status[job_id] = "running"
-            time.sleep(0.1)  # deterministic for tests
+            time.sleep(0.05)  # deterministic for tests
             try:
                 _process_job(self.app, job_id)
                 with self.app.state.lock:
