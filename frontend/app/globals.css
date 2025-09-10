@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  @apply antialiased;
+}
+
 /* Custom styles for glass effect and other UI enhancements */
 .glass {
   background: rgba(255, 255, 255, 0.1);

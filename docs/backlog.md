@@ -68,6 +68,11 @@
 
 ---
 
+### Epic Fix-CI-04 — FE Hydration/Style Restore
+| ID | Title                      | MoSCoW | Priority | SP | EstHrs | Owner | Status  | Deps   | TestId | TestFiles                       | TestStatus |
+|----|----------------------------|--------|----------|----|--------|-------|---------|--------|--------|---------------------------------|------------|
+| Fix-CI-04-01 | FE Hydration/Style Restore | M      | P1       | 3  | 6      | FE    | Done   | —      | T-FCI4  | frontend/tests/ui-management.test.tsx | Passed |
+
 ### Epic UI-M — UI Management Modernization
 | ID | Title                      | MoSCoW | Priority | SP | EstHrs | Owner | Status  | Deps   | TestId | TestFiles                       | TestStatus |
 |----|----------------------------|--------|----------|----|--------|-------|---------|--------|--------|---------------------------------|------------|

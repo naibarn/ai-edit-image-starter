@@ -168,6 +168,15 @@ A modern web application for AI-powered image editing and generation, built with
 - **Fix**: Updated `logger.error` to include exception message: `logger.error("job %s failed: %s", job_id, str(e))`
 - **Result**: All 66 backend tests now passing
 
+### Frontend Hydration & Styling Fixes (2025-09-10)
+- **Issue**: Hydration mismatch due to nested html/body tags in segment layouts
+- **Fix**: Convert app/edit/layout.tsx to segment layout with only `<div className="min-h-dvh">{children}</div>`
+- **Issue**: Tailwind CSS not properly configured for shadcn/ui components
+- **Fix**: Updated tailwind.config.js with proper color definitions and darkMode: "class"
+- **Issue**: Missing root CSS variables for color scheme
+- **Fix**: Added `:root { color-scheme: light dark; }` and `body { @apply antialiased; }` to globals.css
+- **Result**: Hydration warnings eliminated, Tailwind styles working correctly
+
 ## Future Enhancements
 
 ### Short Term
